@@ -1,0 +1,122 @@
+"use client"
+
+import { useState } from "react"
+import { signIn, getSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { ArrowLeft, Lock, Mail, User } from "lucide-react"
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      })
+
+      if (result?.error) {
+        setError('Email atau kata laluan tidak sah')
+      } else {
+        // Check session and redirect
+        const session = await getSession()
+        if (session) {
+          router.push('/admin')
+        }
+      }
+    } catch (error) {
+      setError('Ralat sistem. Sila cuba lagi.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <User className="w-8 h-8 text-rose-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Admin Login</h1>
+          <p className="text-gray-600">SwiftSalon Muslimah</p>
+        </div>
+
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <Mail className="w-4 h-4 inline mr-1" />
+              Email
+            </label>
+            <input
+              type="email"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+              placeholder="admin@swiftsalon.my"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <Lock className="w-4 h-4 inline mr-1" />
+              Kata Laluan
+            </label>
+            <input
+              type="password"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+          >
+            {loading ? 'Sedang masuk...' : 'Masuk'}
+          </button>
+        </form>
+
+        {/* Demo Credentials */}
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+          <h3 className="font-semibold text-gray-800 mb-2">Demo Login:</h3>
+          <p className="text-sm text-gray-600">
+            Email: <code className="bg-white px-1 rounded">admin@swiftsalon.my</code><br />
+            Password: <code className="bg-white px-1 rounded">admin123</code>
+          </p>
+        </div>
+
+        {/* Back to Home */}
+        <div className="mt-6 text-center">
+          <Link href="/" className="text-rose-600 hover:text-rose-700 text-sm flex items-center justify-center">
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Kembali ke Laman Utama
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}

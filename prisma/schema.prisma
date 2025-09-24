@@ -1,0 +1,232 @@
+// SwiftSalon Muslimah - Prisma Schema
+// Aligned with SwiftApps Ecosystem Standard
+// Database: PostgreSQL on Supabase
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Authentication Models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(ADMIN)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+}
+
+// SwiftSalon Core Models
+model Customer {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String   @unique
+  email       String?
+  isMember    Boolean  @default(false)
+  totalPoints Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bookings        Booking[]
+  pointHistories  PointHistory[]
+  memberships     Membership[]
+}
+
+model Staff {
+  id        String     @id @default(cuid())
+  name      String
+  phone     String     @unique
+  email     String?
+  position  String     @default("Stylist")
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  bookings      Booking[]
+  staffSchedules StaffSchedule[]
+}
+
+model Service {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal
+  duration    Int     // in minutes
+  isActive    Boolean @default(true)
+  category    String  @default("General")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  bookings Booking[]
+}
+
+model Booking {
+  id           String        @id @default(cuid())
+  customerId   String
+  serviceId    String
+  staffId      String?
+  bookingDate  DateTime
+  startTime    DateTime
+  endTime      DateTime
+  status       BookingStatus @default(PENDING)
+  totalAmount  Decimal
+  paymentStatus PaymentStatus @default(PENDING)
+  paymentMethod String?
+  notes        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
+  staff    Staff?   @relation(fields: [staffId], references: [id])
+  payments Payment[]
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  bookingId     String
+  amount        Decimal
+  paymentMethod PaymentMethod
+  status        PaymentStatus @default(COMPLETED)
+  transactionId String?
+  paidAt        DateTime      @default(now())
+  createdAt     DateTime      @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+}
+
+model Membership {
+  id         String         @id @default(cuid())
+  customerId String
+  type       MembershipType @default(BASIC)
+  startDate  DateTime       @default(now())
+  endDate    DateTime?
+  isActive   Boolean        @default(true)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id])
+}
+
+model PointHistory {
+  id         String      @id @default(cuid())
+  customerId String
+  points     Int
+  type       PointType
+  reason     String
+  bookingId  String?
+  expiresAt  DateTime?   // Points expire after 6 months
+  createdAt  DateTime    @default(now())
+
+  customer Customer @relation(fields: [customerId], references: [id])
+}
+
+model StaffSchedule {
+  id        String   @id @default(cuid())
+  staffId   String
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  staff Staff @relation(fields: [staffId], references: [id])
+}
+
+model BusinessSettings {
+  id                String  @id @default(cuid())
+  name              String
+  address           String?
+  phone             String?
+  email             String?
+  whatsappNumber    String?
+  pointsPerRinggit  Int     @default(1) // 1 point per RM1
+  pointRedemptionRates Json  // {"50": 5, "100": 15, "200": "free_service"}
+  businessHours     Json    // Operating hours
+  isActive          Boolean @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  QR_PAY
+  FPX
+  CARD
+}
+
+enum MembershipType {
+  BASIC
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum PointType {
+  EARNED
+  REDEEMED
+  EXPIRED
+  ADJUSTED
+}
