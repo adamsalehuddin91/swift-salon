@@ -7,7 +7,7 @@ import { ArrowLeft, Lock, User, Eye, EyeOff } from "lucide-react"
 
 export default function AdminLoginPage() {
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
   const [loading, setLoading] = useState(false)
@@ -29,13 +29,15 @@ export default function AdminLoginPage() {
         body: JSON.stringify(formData)
       })
 
-      if (response.ok) {
-        // Redirect to admin dashboard
-        router.push('/admin')
-      } else {
-        const error = await response.json()
-        setError(error.message || 'Username atau password tidak betul')
-      }
+     if (response.ok) {
+    // Small delay to ensure cookie is set
+    setTimeout(() => {
+      router.push('/admin')
+    }, 100) // <- Added missing comma and closing parenthesis
+  } else {
+    const error = await response.json()
+    setError(error.message || 'Username atau password tidak betul')
+  }
     } catch (error) {
       console.error('Login error:', error)
       setError('Ralat sambungan. Sila cuba lagi.')
@@ -79,11 +81,11 @@ export default function AdminLoginPage() {
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
-                type="text"
-                required
+                type="email"
+                name="email"
                 className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                value={formData.username}
-                onChange={(e) => setFormData({...formData, username: e.target.value})}
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
                 placeholder="Masukkan username"
               />
             </div>
@@ -115,7 +117,7 @@ export default function AdminLoginPage() {
 
           <button
             type="submit"
-            disabled={loading || !formData.username || !formData.password}
+            disabled={loading || !formData.email || !formData.password}
             className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
           >
             {loading ? (

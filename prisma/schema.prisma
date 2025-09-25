@@ -1,7 +1,3 @@
-// SwiftSalon Muslimah - Prisma Schema
-// Aligned with SwiftApps Ecosystem Standard
-// Database: PostgreSQL on Supabase
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,7 +8,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// Authentication Models
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -26,8 +21,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -50,75 +44,69 @@ model User {
   role          UserRole  @default(ADMIN)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-
-  accounts Account[]
-  sessions Session[]
+  accounts      Account[]
+  sessions      Session[]
 }
 
-// SwiftSalon Core Models
 model Customer {
-  id          String   @id @default(cuid())
-  name        String
-  phone       String   @unique
-  email       String?
-  isMember    Boolean  @default(false)
-  totalPoints Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  bookings        Booking[]
-  pointHistories  PointHistory[]
-  memberships     Membership[]
+  id             String         @id @default(cuid())
+  name           String
+  phone          String         @unique
+  email          String?
+  isMember       Boolean        @default(false)
+  totalPoints    Int            @default(0)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  bookings       Booking[]
+  memberships    Membership[]
+  pointHistories PointHistory[]
 }
 
 model Staff {
-  id        String     @id @default(cuid())
-  name      String
-  phone     String     @unique
-  email     String?
-  position  String     @default("Stylist")
-  isActive  Boolean    @default(true)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  bookings      Booking[]
+  id             String          @id @default(cuid())
+  name           String
+  phone          String          @unique
+  email          String?
+  position       String          @default("Stylist")
+  isActive       Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  bookings       Booking[]
   staffSchedules StaffSchedule[]
 }
 
 model Service {
-  id          String  @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String?
   price       Decimal
-  duration    Int     // in minutes
-  isActive    Boolean @default(true)
-  category    String  @default("General")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  bookings Booking[]
+  duration    Int
+  isActive    Boolean   @default(true)
+  category    String    @default("General")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
 }
 
 model Booking {
-  id           String        @id @default(cuid())
-  customerId   String
-  serviceId    String
-  staffId      String?
-  bookingDate  DateTime
-  startTime    DateTime
-  endTime      DateTime
-  status       BookingStatus @default(PENDING)
-  totalAmount  Decimal
+  id            String        @id @default(cuid())
+  customerId    String
+  serviceId     String
+  staffId       String?
+  bookingDate   DateTime
+  startTime     DateTime
+  endTime       DateTime
+  status        BookingStatus @default(PENDING)
+  totalAmount   Decimal
   paymentStatus PaymentStatus @default(PENDING)
   paymentMethod String?
-  notes        String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-
-  customer Customer @relation(fields: [customerId], references: [id])
-  service  Service  @relation(fields: [serviceId], references: [id])
-  staff    Staff?   @relation(fields: [staffId], references: [id])
-  payments Payment[]
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  service       Service       @relation(fields: [serviceId], references: [id])
+  staff         Staff?        @relation(fields: [staffId], references: [id])
+  payments      Payment[]
 }
 
 model Payment {
@@ -130,8 +118,7 @@ model Payment {
   transactionId String?
   paidAt        DateTime      @default(now())
   createdAt     DateTime      @default(now())
-
-  booking Booking @relation(fields: [bookingId], references: [id])
+  booking       Booking       @relation(fields: [bookingId], references: [id])
 }
 
 model Membership {
@@ -143,21 +130,19 @@ model Membership {
   isActive   Boolean        @default(true)
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
-
-  customer Customer @relation(fields: [customerId], references: [id])
+  customer   Customer       @relation(fields: [customerId], references: [id])
 }
 
 model PointHistory {
-  id         String      @id @default(cuid())
+  id         String    @id @default(cuid())
   customerId String
   points     Int
   type       PointType
   reason     String
   bookingId  String?
-  expiresAt  DateTime?   // Points expire after 6 months
-  createdAt  DateTime    @default(now())
-
-  customer Customer @relation(fields: [customerId], references: [id])
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+  customer   Customer  @relation(fields: [customerId], references: [id])
 }
 
 model StaffSchedule {
@@ -169,26 +154,24 @@ model StaffSchedule {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  staff Staff @relation(fields: [staffId], references: [id])
+  staff     Staff    @relation(fields: [staffId], references: [id])
 }
 
 model BusinessSettings {
-  id                String  @id @default(cuid())
-  name              String
-  address           String?
-  phone             String?
-  email             String?
-  whatsappNumber    String?
-  pointsPerRinggit  Int     @default(1) // 1 point per RM1
-  pointRedemptionRates Json  // {"50": 5, "100": 15, "200": "free_service"}
-  businessHours     Json    // Operating hours
-  isActive          Boolean @default(true)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                   String   @id @default(cuid())
+  name                 String
+  address              String?
+  phone                String?
+  email                String?
+  whatsappNumber       String?
+  pointsPerRinggit     Int      @default(1)
+  pointRedemptionRates Json
+  businessHours        Json
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 }
 
-// Enums
 enum UserRole {
   ADMIN
   STAFF

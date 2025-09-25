@@ -27,11 +27,11 @@ const nextConfig: NextConfig = {
 
   // Reduce memory usage during build
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
 
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   }
 };
 

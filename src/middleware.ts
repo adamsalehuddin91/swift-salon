@@ -16,17 +16,24 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Check if this is an API admin route
-  if (request.nextUrl.pathname.startsWith('/api/admin')) {
-    const session = request.cookies.get('admin-session')
+   // Check if this is an API admin route
+    if (request.nextUrl.pathname.startsWith('/api/admin')) {     
+      // Allow login endpoint without session check
+      if (request.nextUrl.pathname === '/api/admin/login') {     
+        return NextResponse.next()
+      }
 
-    if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized - Admin access required' },
-        { status: 401 }
-      )
+      const session = request.cookies.get('admin-session')
+
+      if (!session) {
+        return NextResponse.json(
+          { error: 'Unauthorized - Admin access required' },
+          { status: 401 }
+        )
+      }
     }
-  }
+
+    
 
   return NextResponse.next()
 }
