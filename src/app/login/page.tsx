@@ -28,10 +28,15 @@ export default function LoginPage() {
       if (result?.error) {
         setError('Email atau kata laluan tidak sah')
       } else {
-        // Check session and redirect
+        // Check session and redirect to customer dashboard
         const session = await getSession()
         if (session) {
-          router.push('/admin')
+          // Check if user is admin or customer
+          if (session.user?.role === 'ADMIN') {
+            router.push('/admin')
+          } else {
+            router.push('/dashboard')
+          }
         }
       }
     } catch (error) {
@@ -49,7 +54,7 @@ export default function LoginPage() {
           <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <User className="w-8 h-8 text-rose-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Admin Login</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Log Masuk Pelanggan</h1>
           <p className="text-gray-600">SwiftSalon Muslimah</p>
         </div>
 
@@ -70,7 +75,7 @@ export default function LoginPage() {
               type="email"
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-              placeholder="admin@swiftsalon.my"
+              placeholder="email@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -100,12 +105,23 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Demo Credentials */}
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold text-gray-800 mb-2">Demo Login:</h3>
+        {/* Register Link */}
+        <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Email: <code className="bg-white px-1 rounded">admin@swiftsalon.my</code><br />
-            Password: <code className="bg-white px-1 rounded">admin123</code>
+            Belum ada akaun?{' '}
+            <Link href="/membership" className="text-rose-600 hover:text-rose-700 font-medium">
+              Daftar sebagai ahli
+            </Link>
+          </p>
+        </div>
+
+        {/* Admin Login Link */}
+        <div className="mt-4 text-center">
+          <p className="text-xs text-gray-500">
+            Kakitangan?{' '}
+            <Link href="/admin/login" className="text-blue-600 hover:text-blue-700 font-medium">
+              Log masuk admin
+            </Link>
           </p>
         </div>
 

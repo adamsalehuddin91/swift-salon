@@ -27,10 +27,10 @@ export default function Home() {
               Daftar Ahli
             </Link>
             <Link
-              href="/admin"
+              href="/login"
               className="border border-rose-600 text-rose-600 hover:bg-rose-50 px-8 py-3 rounded-lg font-semibold transition-colors"
             >
-              Admin Dashboard
+              Log Masuk
             </Link>
           </div>
         </header>

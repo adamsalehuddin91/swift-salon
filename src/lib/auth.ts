@@ -18,11 +18,32 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        const user = await prisma.user.findUnique({
+        // Try to find user in User table first (admins)
+        let user = await prisma.user.findUnique({
           where: {
             email: credentials.email
           }
         })
+
+        // If not found in User table, try Customer table
+        if (!user) {
+          const customer = await prisma.customer.findUnique({
+            where: {
+              email: credentials.email
+            }
+          })
+
+          if (customer) {
+            // Convert customer to user format for consistency
+            user = {
+              id: customer.id,
+              email: customer.email,
+              name: customer.name,
+              password: customer.password || null,
+              role: 'CUSTOMER'
+            }
+          }
+        }
 
         if (!user || !user.password) {
           return null
