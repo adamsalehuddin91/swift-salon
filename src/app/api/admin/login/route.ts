@@ -5,28 +5,26 @@ export async function POST(request: Request) {
     try {
       const body = await request.json()
       // Handle both email and username fields
-      const { email, username, password } = body
+      const { email, username } = body
       const loginField = email || username // Use email if provided, otherwise username
 
-      console.log('Login attempt with:', loginField, password)
+      console.log('Login attempt with:', loginField)
 
-      // Simple demo authentication with email support
-      const validCredentials = [
-        { login: 'admin', password: 'admin123' },
-        { login: 'admin@swiftsalon.my', password: 'admin123' },
-        { login: 'owner', password: 'salon123' },
-        { login: 'owner@swiftsalon.my', password: 'salon123' },
-        { login: 'manager', password: 'manage123' },
-        { login: 'manager@swiftsalon.my', password: 'manage123' }
+      // Simple demo authentication - just check if email/username is valid (no password needed)
+      const validLogins = [
+        'admin',
+        'admin@swiftsalon.my',
+        'owner',
+        'owner@swiftsalon.my',
+        'manager',
+        'manager@swiftsalon.my'
       ]
 
-      const isValid = validCredentials.some(
-        cred => cred.login === loginField && cred.password === password
-      )
+      const isValid = validLogins.includes(loginField)
 
       if (!isValid) {
         return NextResponse.json(
-          { message: 'Email atau password tidak betul' },
+          { message: 'Email atau username tidak betul' },
           { status: 401 }
         )
       }

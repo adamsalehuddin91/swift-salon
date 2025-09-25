@@ -7,11 +7,9 @@ import { ArrowLeft, Lock, User, Eye, EyeOff } from "lucide-react"
 
 export default function AdminLoginPage() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: ''
   })
   const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
 
@@ -91,33 +89,10 @@ export default function AdminLoginPage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type={showPassword ? "text" : "password"}
-                required
-                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-                placeholder="Masukkan password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
 
           <button
             type="submit"
-            disabled={loading || !formData.email || !formData.password}
+            disabled={loading || !formData.email}
             className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
           >
             {loading ? (
@@ -127,13 +102,6 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-blue-800 mb-2">Demo Login:</h3>
-          <p className="text-sm text-blue-700">
-            <strong>Username:</strong> admin<br/>
-            <strong>Password:</strong> admin123
-          </p>
-        </div>
       </div>
     </div>
   )
