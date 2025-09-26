@@ -18,9 +18,15 @@ export async function GET(request: NextRequest) {
         name: true,
         phone: true,
         email: true,
-        membershipType: true,
-        membershipExpiry: true,
-        preferences: true
+        isMember: true,
+        memberships: {
+          where: { isActive: true },
+          select: {
+            type: true,
+            endDate: true
+          },
+          take: 1
+        }
       }
     })
 
@@ -28,7 +34,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Customer not found' }, { status: 404 })
     }
 
-    return NextResponse.json(customer)
+    // Extract membership info
+    const activeMembership = customer.memberships[0] || null
+    const membershipType = activeMembership?.type || 'BASIC'
+    const membershipExpiry = activeMembership?.endDate || null
+
+    return NextResponse.json({
+      id: customer.id,
+      name: customer.name,
+      phone: customer.phone,
+      email: customer.email,
+      isMember: customer.isMember,
+      membershipType,
+      membershipExpiry
+    })
 
   } catch (error) {
     console.error('Profile API error:', error)

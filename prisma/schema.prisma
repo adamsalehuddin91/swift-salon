@@ -134,15 +134,19 @@ model Membership {
 }
 
 model PointHistory {
-  id         String    @id @default(cuid())
-  customerId String
-  points     Int
-  type       PointType
-  reason     String
-  bookingId  String?
-  expiresAt  DateTime?
-  createdAt  DateTime  @default(now())
-  customer   Customer  @relation(fields: [customerId], references: [id])
+  id          String    @id @default(cuid())
+  customerId  String
+  points      Int
+  type        PointType
+  reason      String
+  description String?   // Added for API compatibility
+  bookingId   String?
+  expiresAt   DateTime?
+  expiryDate  DateTime? // Added for API compatibility (alias for expiresAt)
+  createdAt   DateTime  @default(now())
+  customer    Customer  @relation(fields: [customerId], references: [id])
+
+  @@map("point_transactions") // Allows prisma.pointTransaction usage
 }
 
 model StaffSchedule {
@@ -175,6 +179,7 @@ model BusinessSettings {
 enum UserRole {
   ADMIN
   STAFF
+  CUSTOMER
 }
 
 enum BookingStatus {

@@ -11,12 +11,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get customer data
+    // Get customer data with membership info
     const customer = await prisma.customer.findUnique({
       where: { id: session.user.id },
       select: {
         totalPoints: true,
-        membershipType: true
+        isMember: true,
+        memberships: {
+          where: { isActive: true },
+          select: {
+            type: true
+          },
+          take: 1
+        }
       }
     })
 
@@ -25,7 +32,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get points history
-    const pointsHistory = await prisma.pointTransaction.findMany({
+    const pointsHistory = await prisma.pointHistory.findMany({
       where: { customerId: session.user.id },
       orderBy: { createdAt: 'desc' },
       select: {
@@ -88,11 +95,14 @@ export async function GET(request: NextRequest) {
       }
     ]
 
+    // Get membership type from related membership
+    const membershipType = customer.memberships[0]?.type || 'BASIC'
+
     return NextResponse.json({
       totalPoints: customer.totalPoints,
       pendingPoints: 0, // Calculate pending points from recent bookings if needed
       lifetimePoints: totalEarned,
-      membershipType: customer.membershipType,
+      membershipType,
       pointsHistory: pointsHistory.map(p => ({
         id: p.id,
         points: p.points,

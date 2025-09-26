@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get customer data
+    // Get customer data with membership info
     const customer = await prisma.customer.findUnique({
       where: { id: session.user.id },
       select: {
@@ -20,8 +20,15 @@ export async function GET(request: NextRequest) {
         phone: true,
         email: true,
         totalPoints: true,
-        membershipType: true,
-        membershipExpiry: true
+        isMember: true,
+        memberships: {
+          where: { isActive: true },
+          select: {
+            type: true,
+            endDate: true
+          },
+          take: 1
+        }
       }
     })
 
@@ -36,9 +43,9 @@ export async function GET(request: NextRequest) {
       take: 5,
       select: {
         id: true,
-        date: true,
+        bookingDate: true, // Fixed: was 'date'
         status: true,
-        total: true,
+        totalAmount: true, // Fixed: was 'total'
         service: {
           select: {
             name: true
@@ -48,7 +55,7 @@ export async function GET(request: NextRequest) {
     })
 
     // Get recent points history
-    const pointsHistory = await prisma.pointTransaction.findMany({
+    const pointsHistory = await prisma.pointHistory.findMany({
       where: { customerId: customer.id },
       orderBy: { createdAt: 'desc' },
       take: 5,
@@ -61,14 +68,26 @@ export async function GET(request: NextRequest) {
       }
     })
 
+    // Extract membership info
+    const activeMembership = customer.memberships[0] || null
+    const membershipType = activeMembership?.type || 'BASIC'
+    const membershipExpiry = activeMembership?.endDate || null
+
     return NextResponse.json({
-      ...customer,
+      id: customer.id,
+      name: customer.name,
+      phone: customer.phone,
+      email: customer.email,
+      totalPoints: customer.totalPoints,
+      isMember: customer.isMember,
+      membershipType,
+      membershipExpiry,
       recentBookings: recentBookings.map(booking => ({
         id: booking.id,
         serviceName: booking.service.name,
-        date: booking.date,
+        date: booking.bookingDate, // Fixed field reference
         status: booking.status,
-        total: booking.total
+        total: booking.totalAmount // Fixed field reference
       })),
       pointsHistory
     })
