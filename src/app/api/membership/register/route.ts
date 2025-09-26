@@ -1,15 +1,39 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import bcrypt from "bcryptjs"
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, phone, email, membershipType } = body
+    const { name, phone, email, password, membershipType } = body
 
-    // Check if customer already exists
-    const existingCustomer = await prisma.customer.findUnique({
-      where: { phone }
+    // Validate required fields
+    if (!password || password.length < 6) {
+      return NextResponse.json(
+        { error: 'Kata laluan mesti sekurang-kurangnya 6 aksara.' },
+        { status: 400 }
+      )
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    // Check if customer already exists by phone or email
+    const existingCustomer = await prisma.customer.findFirst({
+      where: {
+        OR: [
+          { phone },
+          { email }
+        ]
+      }
     })
+
+    if (existingCustomer && existingCustomer.phone !== phone) {
+      return NextResponse.json(
+        { error: 'Alamat email ini telah didaftarkan. Sila gunakan alamat email lain.' },
+        { status: 400 }
+      )
+    }
 
     let customer
 
@@ -20,6 +44,7 @@ export async function POST(request: Request) {
         data: {
           name,
           email,
+          password: hashedPassword,
           isMember: true
         }
       })
@@ -30,6 +55,7 @@ export async function POST(request: Request) {
           name,
           phone,
           email,
+          password: hashedPassword,
           isMember: true,
           totalPoints: 0
         }

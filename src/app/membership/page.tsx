@@ -2,12 +2,14 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Star, Gift, Crown, Award, Check, Phone, User, Mail } from "lucide-react"
+import { ArrowLeft, Star, Gift, Crown, Award, Check, Phone, User, Mail, Lock } from "lucide-react"
 
 interface MembershipForm {
   name: string
   phone: string
   email: string
+  password: string
+  confirmPassword: string
   membershipType: 'BASIC' | 'SILVER' | 'GOLD' | 'PLATINUM'
 }
 
@@ -18,6 +20,8 @@ export default function MembershipPage() {
     name: '',
     phone: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     membershipType: 'BASIC'
   })
 
@@ -89,13 +93,32 @@ export default function MembershipPage() {
     e.preventDefault()
     setLoading(true)
 
+    // Validate password confirmation
+    if (form.password !== form.confirmPassword) {
+      alert('Kata laluan tidak sepadan. Sila cuba lagi.')
+      setLoading(false)
+      return
+    }
+
+    if (form.password.length < 6) {
+      alert('Kata laluan mesti sekurang-kurangnya 6 aksara.')
+      setLoading(false)
+      return
+    }
+
     try {
       const response = await fetch('/api/membership/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          password: form.password,
+          membershipType: form.membershipType
+        })
       })
 
       if (response.ok) {
@@ -234,6 +257,40 @@ export default function MembershipPage() {
                       value={form.email}
                       onChange={(e) => setForm({...form, email: e.target.value})}
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Kata Laluan *
+                    </label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="password"
+                        required
+                        placeholder="Sekurang-kurangnya 6 aksara"
+                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        value={form.password}
+                        onChange={(e) => setForm({...form, password: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Sahkan Kata Laluan *
+                    </label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="password"
+                        required
+                        placeholder="Masukkan kata laluan sekali lagi"
+                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        value={form.confirmPassword}
+                        onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
