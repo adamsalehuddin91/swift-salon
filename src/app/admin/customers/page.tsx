@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import AdminLayout from "@/components/admin/AdminLayout"
+import PasswordResetModal from "@/components/admin/PasswordResetModal"
 import {
   Users,
   Star,
@@ -11,7 +12,8 @@ import {
   Gift,
   Search,
   UserCheck,
-  UserX
+  UserX,
+  Key
 } from "lucide-react"
 
 interface Customer {
@@ -21,6 +23,8 @@ interface Customer {
   email: string | null
   isMember: boolean
   totalPoints: number
+  lastPasswordResetAt: string | null
+  passwordResetByAdmin: string | null
   createdAt: string
   bookings: any[]
   pointHistories: any[]
@@ -31,6 +35,8 @@ export default function CustomersPage() {
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [memberFilter, setMemberFilter] = useState('')
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
+  const [showPasswordResetModal, setShowPasswordResetModal] = useState(false)
 
   useEffect(() => {
     loadCustomers()
@@ -66,6 +72,21 @@ export default function CustomersPage() {
     }
   }
 
+  const openPasswordResetModal = (customer: Customer) => {
+    setSelectedCustomer(customer)
+    setShowPasswordResetModal(true)
+  }
+
+  const closePasswordResetModal = () => {
+    setSelectedCustomer(null)
+    setShowPasswordResetModal(false)
+  }
+
+  const handlePasswordReset = () => {
+    // Refresh customer list after password reset
+    loadCustomers()
+  }
+
   const filteredCustomers = customers.filter(customer => {
     const matchesSearch = !searchQuery ||
       customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -80,6 +101,7 @@ export default function CustomersPage() {
   })
 
   return (
+    <>
     <AdminLayout title="Pengurusan Pelanggan">
       <div className="space-y-6">
         {/* Stats */}
@@ -206,6 +228,9 @@ export default function CustomersPage() {
                       Tarikh Daftar
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Password Reset
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Tindakan
                     </th>
                   </tr>
@@ -262,8 +287,32 @@ export default function CustomersPage() {
                           {new Date(customer.createdAt).toLocaleDateString('ms-MY')}
                         </div>
                       </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {customer.lastPasswordResetAt ? (
+                          <div className="text-xs">
+                            <div className="text-red-600 font-medium">
+                              Reset: {new Date(customer.lastPasswordResetAt).toLocaleDateString('ms-MY')}
+                            </div>
+                            <div className="text-gray-500">
+                              {new Date(customer.lastPasswordResetAt).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-gray-400">Tiada reset</span>
+                        )}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-2">
+                          {/* Password Reset Button */}
+                          <button
+                            onClick={() => openPasswordResetModal(customer)}
+                            className="text-yellow-600 hover:text-yellow-900 p-1 rounded flex items-center"
+                            title="Reset Password"
+                          >
+                            <Key className="w-4 h-4" />
+                          </button>
+
+                          {/* Membership Toggle */}
                           {customer.isMember ? (
                             <button
                               onClick={() => updateMembershipStatus(customer.id, false)}
@@ -299,5 +348,14 @@ export default function CustomersPage() {
         </div>
       </div>
     </AdminLayout>
+
+    {/* Password Reset Modal */}
+    <PasswordResetModal
+      customer={selectedCustomer}
+      isOpen={showPasswordResetModal}
+      onClose={closePasswordResetModal}
+      onPasswordReset={handlePasswordReset}
+    />
+  </>
   )
 }

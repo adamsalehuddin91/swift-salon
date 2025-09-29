@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Star, Gift, Crown, Award, Check, Phone, User, Mail, Lock } from "lucide-react"
 
@@ -14,8 +16,12 @@ interface MembershipForm {
 }
 
 export default function MembershipPage() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
   const [step, setStep] = useState<'info' | 'form' | 'success'>('info')
   const [loading, setLoading] = useState(false)
+  const [customerData, setCustomerData] = useState<any>(null)
+  const [isUpgrade, setIsUpgrade] = useState(false)
   const [form, setForm] = useState<MembershipForm>({
     name: '',
     phone: '',
@@ -24,6 +30,35 @@ export default function MembershipPage() {
     confirmPassword: '',
     membershipType: 'BASIC'
   })
+
+  useEffect(() => {
+    if (status === "loading") return
+
+    if (session && session.user?.role === 'CUSTOMER') {
+      loadCustomerData()
+    }
+  }, [session, status])
+
+  const loadCustomerData = async () => {
+    try {
+      const response = await fetch(`/api/customers/${session?.user?.id}`)
+      if (response.ok) {
+        const customer = await response.json()
+        setCustomerData(customer)
+        setIsUpgrade(customer.isMember)
+
+        // Pre-fill form with customer data
+        setForm(prev => ({
+          ...prev,
+          name: customer.name || '',
+          phone: customer.phone || '',
+          email: customer.email || ''
+        }))
+      }
+    } catch (error) {
+      console.error('Error loading customer data:', error)
+    }
+  }
 
   const membershipTiers = [
     {
@@ -93,17 +128,19 @@ export default function MembershipPage() {
     e.preventDefault()
     setLoading(true)
 
-    // Validate password confirmation
-    if (form.password !== form.confirmPassword) {
-      alert('Kata laluan tidak sepadan. Sila cuba lagi.')
-      setLoading(false)
-      return
-    }
+    // For non-logged-in customers, validate password
+    if (!customerData) {
+      if (form.password !== form.confirmPassword) {
+        alert('Kata laluan tidak sepadan. Sila cuba lagi.')
+        setLoading(false)
+        return
+      }
 
-    if (form.password.length < 6) {
-      alert('Kata laluan mesti sekurang-kurangnya 6 aksara.')
-      setLoading(false)
-      return
+      if (form.password.length < 6) {
+        alert('Kata laluan mesti sekurang-kurangnya 6 aksara.')
+        setLoading(false)
+        return
+      }
     }
 
     try {
@@ -216,83 +253,127 @@ export default function MembershipPage() {
                 <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                   <User className="w-5 h-5 mr-2" />
                   Maklumat Peribadi
+                  {customerData && (
+                    <span className="ml-2 text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                      ✓ {isUpgrade ? 'Upgrade' : 'Pendaftaran'}
+                    </span>
+                  )}
                 </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Nama Penuh *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                      value={form.name}
-                      onChange={(e) => setForm({...form, name: e.target.value})}
-                    />
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      No. Telefon *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="01XXXXXXXX"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                      value={form.phone}
-                      onChange={(e) => setForm({...form, phone: e.target.value})}
-                    />
+                {customerData ? (
+                  // Logged-in customer - show read-only info
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Nama Penuh
+                        </label>
+                        <div className="text-lg font-medium text-gray-900">{customerData.name}</div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          No. Telefon
+                        </label>
+                        <div className="text-lg font-medium text-gray-900">{customerData.phone}</div>
+                      </div>
+                    </div>
+                    {customerData.email && (
+                      <div className="mt-3">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Email
+                        </label>
+                        <div className="text-lg font-medium text-gray-900">{customerData.email}</div>
+                      </div>
+                    )}
+                    {customerData.isMember && (
+                      <div className="mt-3">
+                        <div className="flex items-center text-sm text-blue-600">
+                          <span className="bg-blue-100 px-2 py-1 rounded-full">
+                            👑 Ahli Sedia Ada - {customerData.totalPoints} mata
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Alamat Email *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="email@example.com"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                      value={form.email}
-                      onChange={(e) => setForm({...form, email: e.target.value})}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Kata Laluan *
-                    </label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                ) : (
+                  // Non-logged-in customer - show input fields
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Nama Penuh *
+                      </label>
                       <input
-                        type="password"
+                        type="text"
                         required
-                        placeholder="Sekurang-kurangnya 6 aksara"
-                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                        value={form.password}
-                        onChange={(e) => setForm({...form, password: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        value={form.name}
+                        onChange={(e) => setForm({...form, name: e.target.value})}
                       />
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Sahkan Kata Laluan *
-                    </label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        No. Telefon *
+                      </label>
                       <input
-                        type="password"
+                        type="tel"
                         required
-                        placeholder="Masukkan kata laluan sekali lagi"
-                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                        value={form.confirmPassword}
-                        onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
+                        placeholder="01XXXXXXXX"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        value={form.phone}
+                        onChange={(e) => setForm({...form, phone: e.target.value})}
                       />
                     </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Alamat Email *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="email@example.com"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        value={form.email}
+                        onChange={(e) => setForm({...form, email: e.target.value})}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Kata Laluan *
+                      </label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <input
+                          type="password"
+                          required
+                          placeholder="Sekurang-kurangnya 6 aksara"
+                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          value={form.password}
+                          onChange={(e) => setForm({...form, password: e.target.value})}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Sahkan Kata Laluan *
+                      </label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <input
+                          type="password"
+                          required
+                          placeholder="Masukkan kata laluan sekali lagi"
+                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          value={form.confirmPassword}
+                          onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {form.membershipType !== 'BASIC' && (
@@ -306,10 +387,10 @@ export default function MembershipPage() {
               <div className="pt-6">
                 <button
                   type="submit"
-                  disabled={loading || !form.name || !form.phone || !form.email}
+                  disabled={loading || (!customerData && (!form.name || !form.phone || !form.email))}
                   className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                 >
-                  {loading ? 'Memproses...' : 'Daftar Sekarang'}
+                  {loading ? 'Memproses...' : (customerData ? (isUpgrade ? 'Upgrade Keahlian' : 'Daftar Keahlian') : 'Daftar Sekarang')}
                 </button>
               </div>
             </form>
