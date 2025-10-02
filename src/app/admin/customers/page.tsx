@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import AdminLayout from "@/components/admin/AdminLayout"
 import PasswordResetModal from "@/components/admin/PasswordResetModal"
+import CustomerImportModal from "@/components/admin/CustomerImportModal"
 import {
   Users,
   Star,
@@ -13,7 +14,8 @@ import {
   Search,
   UserCheck,
   UserX,
-  Key
+  Key,
+  Upload
 } from "lucide-react"
 
 interface Customer {
@@ -37,6 +39,7 @@ export default function CustomersPage() {
   const [memberFilter, setMemberFilter] = useState('')
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
   const [showPasswordResetModal, setShowPasswordResetModal] = useState(false)
+  const [showImportModal, setShowImportModal] = useState(false)
 
   useEffect(() => {
     loadCustomers()
@@ -181,15 +184,22 @@ export default function CustomersPage() {
               </select>
             </div>
 
-            <div className="flex items-end">
+            <div className="flex items-end gap-2">
               <button
                 onClick={() => {
                   setSearchQuery('')
                   setMemberFilter('')
                 }}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Reset Filter
+              </button>
+              <button
+                onClick={() => setShowImportModal(true)}
+                className="flex-1 px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors flex items-center justify-center"
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Import CSV/Excel
               </button>
             </div>
           </div>
@@ -355,6 +365,13 @@ export default function CustomersPage() {
       isOpen={showPasswordResetModal}
       onClose={closePasswordResetModal}
       onPasswordReset={handlePasswordReset}
+    />
+
+    {/* Customer Import Modal */}
+    <CustomerImportModal
+      isOpen={showImportModal}
+      onClose={() => setShowImportModal(false)}
+      onImportComplete={loadCustomers}
     />
   </>
   )
