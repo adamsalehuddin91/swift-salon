@@ -37,3 +37,68 @@ export async function GET(
     )
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: customerId } = await params
+
+    // Check if customer exists
+    const customer = await prisma.customer.findUnique({
+      where: { id: customerId },
+      include: {
+        bookings: true,
+        pointHistories: true,
+        memberships: true
+      }
+    })
+
+    if (!customer) {
+      return NextResponse.json(
+        { error: 'Pelanggan tidak dijumpai' },
+        { status: 404 }
+      )
+    }
+
+    // Delete all related records first (cascade delete)
+    await prisma.$transaction([
+      // Delete point histories
+      prisma.pointHistory.deleteMany({
+        where: { customerId }
+      }),
+      // Delete memberships
+      prisma.membership.deleteMany({
+        where: { customerId }
+      }),
+      // Delete payments related to bookings
+      prisma.payment.deleteMany({
+        where: {
+          booking: {
+            customerId
+          }
+        }
+      }),
+      // Delete bookings
+      prisma.booking.deleteMany({
+        where: { customerId }
+      }),
+      // Finally delete the customer
+      prisma.customer.delete({
+        where: { id: customerId }
+      })
+    ])
+
+    return NextResponse.json({
+      success: true,
+      message: 'Pelanggan berjaya dipadam'
+    })
+  } catch (error) {
+    console.error('Error deleting customer:', error)
+    return NextResponse.json(
+      { error: 'Gagal memadam pelanggan' },
+      { status: 500 }
+    )
+  }
+}

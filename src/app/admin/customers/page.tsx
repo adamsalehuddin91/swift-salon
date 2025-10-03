@@ -15,7 +15,8 @@ import {
   UserCheck,
   UserX,
   Key,
-  Upload
+  Upload,
+  Trash2
 } from "lucide-react"
 
 interface Customer {
@@ -88,6 +89,29 @@ export default function CustomersPage() {
   const handlePasswordReset = () => {
     // Refresh customer list after password reset
     loadCustomers()
+  }
+
+  const deleteCustomer = async (customerId: string, customerName: string) => {
+    if (!confirm(`Adakah anda pasti mahu memadam pelanggan "${customerName}"?\n\nSemua data termasuk tempahan, points, dan keahlian akan turut dipadam.`)) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/customers/${customerId}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        loadCustomers()
+        alert('Pelanggan berjaya dipadam')
+      } else {
+        const data = await response.json()
+        alert(`Ralat: ${data.error || 'Gagal memadam pelanggan'}`)
+      }
+    } catch (error) {
+      console.error('Error deleting customer:', error)
+      alert('Ralat: Gagal memadam pelanggan')
+    }
   }
 
   const filteredCustomers = customers.filter(customer => {
@@ -342,6 +366,15 @@ export default function CustomersPage() {
                               Jadi Ahli
                             </button>
                           )}
+
+                          {/* Delete Button */}
+                          <button
+                            onClick={() => deleteCustomer(customer.id, customer.name)}
+                            className="text-red-600 hover:text-red-900 p-1 rounded flex items-center"
+                            title="Padam pelanggan"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
                         </div>
                       </td>
                     </tr>

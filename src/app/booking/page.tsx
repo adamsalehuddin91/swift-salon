@@ -13,18 +13,11 @@ interface Service {
   category: string
 }
 
-interface Staff {
-  id: string
-  name: string
-  position: string
-}
-
 interface BookingForm {
   customerName: string
   customerPhone: string
   customerEmail: string
   serviceId: string
-  staffId: string
   bookingDate: string
   startTime: string
   notes: string
@@ -41,7 +34,6 @@ interface FormErrors {
 
 export default function BookingPage() {
   const [services, setServices] = useState<Service[]>([])
-  const [staff, setStaff] = useState<Staff[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -51,7 +43,6 @@ export default function BookingPage() {
     customerPhone: '',
     customerEmail: '',
     serviceId: '',
-    staffId: '',
     bookingDate: '',
     startTime: '',
     notes: ''
@@ -143,16 +134,9 @@ export default function BookingPage() {
 
   const loadData = async () => {
     try {
-      const [servicesRes, staffRes] = await Promise.all([
-        fetch('/api/services'),
-        fetch('/api/staff')
-      ])
-
+      const servicesRes = await fetch('/api/services')
       const servicesData = await servicesRes.json()
-      const staffData = await staffRes.json()
-
       setServices(servicesData)
-      setStaff(staffData)
     } catch (error) {
       console.error('Error loading data:', error)
     } finally {
@@ -189,7 +173,6 @@ export default function BookingPage() {
           customerPhone: '',
           customerEmail: '',
           serviceId: '',
-          staffId: '',
           bookingDate: '',
           startTime: '',
           notes: ''
@@ -367,27 +350,6 @@ export default function BookingPage() {
                 ))}
               </div>
             </div>
-
-            {/* Staff Selection */}
-            {staff.length > 0 && (
-              <div>
-                <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                  Pilih Stylist (Pilihan)
-                </h2>
-                <select
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
-                  value={form.staffId}
-                  onChange={(e) => setForm({...form, staffId: e.target.value})}
-                >
-                  <option value="">Mana-mana stylist yang tersedia</option>
-                  {staff.map((member) => (
-                    <option key={member.id} value={member.id}>
-                      {member.name} - {member.position}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
 
             {/* Date & Time */}
             <div>

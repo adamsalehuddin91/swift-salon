@@ -44,8 +44,15 @@ interface Booking {
   } | null
 }
 
+interface Staff {
+  id: string
+  name: string
+  position: string
+}
+
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([])
+  const [staff, setStaff] = useState<Staff[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedDate, setSelectedDate] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
@@ -53,6 +60,7 @@ export default function BookingsPage() {
 
   useEffect(() => {
     loadBookings()
+    loadStaff()
   }, [selectedDate])
 
   const loadBookings = async () => {
@@ -67,6 +75,16 @@ export default function BookingsPage() {
       console.error('Error loading bookings:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const loadStaff = async () => {
+    try {
+      const response = await fetch('/api/staff')
+      const data = await response.json()
+      setStaff(data)
+    } catch (error) {
+      console.error('Error loading staff:', error)
     }
   }
 
@@ -90,6 +108,31 @@ export default function BookingsPage() {
       }
     } catch (error) {
       console.error('Error updating booking:', error)
+    }
+  }
+
+  const updateBookingStaff = async (bookingId: string, staffId: string) => {
+    try {
+      const response = await fetch('/api/bookings', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          bookingId,
+          staffId
+        })
+      })
+
+      if (response.ok) {
+        loadBookings() // Reload data
+      } else {
+        const data = await response.json()
+        alert(`Ralat: ${data.error || 'Gagal mengemas kini staff'}`)
+      }
+    } catch (error) {
+      console.error('Error updating booking staff:', error)
+      alert('Ralat: Gagal mengemas kini staff')
     }
   }
 
@@ -278,9 +321,19 @@ export default function BookingsPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
-                          {booking.staff?.name || 'Belum ditetapkan'}
-                        </div>
+                        <select
+                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          value={booking.staffId || ''}
+                          onChange={(e) => updateBookingStaff(booking.id, e.target.value)}
+                          disabled={booking.status === 'COMPLETED' || booking.status === 'CANCELLED'}
+                        >
+                          <option value="">Belum ditetapkan</option>
+                          {staff.map((member) => (
+                            <option key={member.id} value={member.id}>
+                              {member.name} - {member.position}
+                            </option>
+                          ))}
+                        </select>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(booking.status)}`}>

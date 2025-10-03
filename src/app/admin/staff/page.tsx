@@ -15,6 +15,21 @@ import {
   Clock
 } from "lucide-react"
 
+interface Booking {
+  id: string
+  startTime: string
+  endTime: string
+  status: string
+  customer: {
+    name: string
+    phone: string
+  }
+  service: {
+    name: string
+    duration: number
+  }
+}
+
 interface Staff {
   id: string
   name: string
@@ -23,7 +38,7 @@ interface Staff {
   position: string
   isActive: boolean
   createdAt: string
-  bookings?: any[]
+  bookings?: Booking[]
 }
 
 interface StaffForm {
@@ -35,11 +50,14 @@ interface StaffForm {
 
 export default function StaffPage() {
   const [staff, setStaff] = useState<Staff[]>([])
+  const [staffWithBookings, setStaffWithBookings] = useState<Staff[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingStaff, setEditingStaff] = useState<Staff | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [positionFilter, setPositionFilter] = useState('')
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+  const [showAvailability, setShowAvailability] = useState(false)
   const [form, setForm] = useState<StaffForm>({
     name: '',
     phone: '',
@@ -74,6 +92,22 @@ export default function StaffPage() {
       setLoading(false)
     }
   }
+
+  const loadStaffAvailability = async () => {
+    try {
+      const response = await fetch(`/api/staff?includeBookings=true&date=${selectedDate}`)
+      const data = await response.json()
+      setStaffWithBookings(data)
+    } catch (error) {
+      console.error('Error loading staff availability:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (showAvailability) {
+      loadStaffAvailability()
+    }
+  }, [selectedDate, showAvailability])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -157,6 +191,59 @@ export default function StaffPage() {
 
   const activeStaffCount = staff.filter(s => s.isActive).length
   const uniquePositions = new Set(staff.filter(s => s.isActive).map(s => s.position)).size
+
+  // Check for time conflicts between bookings
+  const hasTimeConflict = (bookings: Booking[]) => {
+    for (let i = 0; i < bookings.length; i++) {
+      for (let j = i + 1; j < bookings.length; j++) {
+        const booking1Start = new Date(bookings[i].startTime)
+        const booking1End = new Date(bookings[i].endTime)
+        const booking2Start = new Date(bookings[j].startTime)
+        const booking2End = new Date(bookings[j].endTime)
+
+        // Check if times overlap
+        if (
+          (booking1Start < booking2End && booking1End > booking2Start) ||
+          (booking2Start < booking1End && booking2End > booking1Start)
+        ) {
+          return true
+        }
+      }
+    }
+    return false
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'COMPLETED':
+        return 'bg-green-100 text-green-800'
+      case 'CONFIRMED':
+        return 'bg-blue-100 text-blue-800'
+      case 'IN_PROGRESS':
+        return 'bg-yellow-100 text-yellow-800'
+      case 'PENDING':
+        return 'bg-orange-100 text-orange-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'COMPLETED':
+        return 'Selesai'
+      case 'CONFIRMED':
+        return 'Disahkan'
+      case 'IN_PROGRESS':
+        return 'Dalam Proses'
+      case 'PENDING':
+        return 'Pending'
+      case 'CANCELLED':
+        return 'Dibatalkan'
+      default:
+        return status
+    }
+  }
 
   return (
     <AdminLayout title="Pengurusan Staff">
@@ -433,6 +520,112 @@ export default function StaffPage() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Staff Availability Table */}
+        <div className="bg-white rounded-lg shadow">
+          <div className="p-6 border-b">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-800">Jadual Ketersediaan Staff</h2>
+              <button
+                onClick={() => {
+                  setShowAvailability(!showAvailability)
+                  if (!showAvailability) {
+                    loadStaffAvailability()
+                  }
+                }}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
+              >
+                <Calendar className="w-4 h-4 mr-2" />
+                {showAvailability ? 'Tutup Jadual' : 'Papar Jadual'}
+              </button>
+            </div>
+
+            {showAvailability && (
+              <div className="flex items-center space-x-4">
+                <label className="text-sm font-medium text-gray-700">Pilih Tarikh:</label>
+                <input
+                  type="date"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                />
+              </div>
+            )}
+          </div>
+
+          {showAvailability && (
+            <div className="p-6">
+              {staffWithBookings.length > 0 ? (
+                <div className="space-y-6">
+                  {staffWithBookings.map((member) => {
+                    const hasConflict = member.bookings && member.bookings.length > 1 && hasTimeConflict(member.bookings)
+
+                    return (
+                      <div key={member.id} className={`border rounded-lg p-4 ${hasConflict ? 'border-red-500 bg-red-50' : 'border-gray-200'}`}>
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center">
+                            <User className="w-5 h-5 mr-2 text-gray-600" />
+                            <h3 className="font-semibold text-gray-800">{member.name}</h3>
+                            <span className="ml-3 text-sm text-gray-500">({member.position})</span>
+                          </div>
+                          {hasConflict && (
+                            <span className="px-3 py-1 bg-red-600 text-white text-xs font-semibold rounded-full">
+                              ⚠️ KONFLIK MASA
+                            </span>
+                          )}
+                        </div>
+
+                        {member.bookings && member.bookings.length > 0 ? (
+                          <div className="space-y-2">
+                            {member.bookings.map((booking) => (
+                              <div
+                                key={booking.id}
+                                className="bg-white border border-gray-200 rounded-lg p-3 flex items-center justify-between"
+                              >
+                                <div className="flex-1">
+                                  <div className="flex items-center space-x-4">
+                                    <div className="flex items-center">
+                                      <Clock className="w-4 h-4 mr-1 text-gray-400" />
+                                      <span className="text-sm font-medium text-gray-900">
+                                        {new Date(booking.startTime).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                                        {' - '}
+                                        {new Date(booking.endTime).toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', hour12: false })}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center">
+                                      <User className="w-4 h-4 mr-1 text-gray-400" />
+                                      <span className="text-sm text-gray-700">{booking.customer.name}</span>
+                                    </div>
+                                    <div className="text-sm text-gray-600">
+                                      {booking.service.name} ({booking.service.duration} min)
+                                    </div>
+                                  </div>
+                                </div>
+                                <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(booking.status)}`}>
+                                  {getStatusText(booking.status)}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="text-center py-6 bg-gray-50 rounded-lg">
+                            <Calendar className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                            <p className="text-sm text-gray-500">Tiada tempahan pada tarikh ini</p>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600">Tiada data ketersediaan</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </AdminLayout>

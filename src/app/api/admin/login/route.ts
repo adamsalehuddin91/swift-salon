@@ -1,37 +1,60 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
+import { prisma } from "@/lib/prisma"
+import bcrypt from "bcryptjs"
 
 export async function POST(request: Request) {
     try {
       const body = await request.json()
-      // Handle both email and username fields
-      const { email, username } = body
-      const loginField = email || username // Use email if provided, otherwise username
+      const { email, password } = body
 
-      console.log('Login attempt with:', loginField)
+      console.log('Login attempt with:', email)
 
-      // Simple demo authentication - just check if email/username is valid (no password needed)
-      const validLogins = [
-        'admin',
-        'admin@swiftsalon.my',
-        'owner',
-        'owner@swiftsalon.my',
-        'manager',
-        'manager@swiftsalon.my'
-      ]
-
-      const isValid = validLogins.includes(loginField)
-
-      if (!isValid) {
+      if (!email || !password) {
         return NextResponse.json(
-          { message: 'Email atau username tidak betul' },
+          { message: 'Email dan password diperlukan' },
+          { status: 400 }
+        )
+      }
+
+      // Find user in database
+      const user = await prisma.user.findUnique({
+        where: { email }
+      })
+
+      if (!user) {
+        return NextResponse.json(
+          { message: 'Email atau password tidak betul' },
+          { status: 401 }
+        )
+      }
+
+      // Check if user is admin
+      if (user.role !== 'ADMIN') {
+        return NextResponse.json(
+          { message: 'Akses ditolak. Admin sahaja.' },
+          { status: 403 }
+        )
+      }
+
+      // Verify password
+      const passwordMatch = await bcrypt.compare(password, user.password!)
+
+      if (!passwordMatch) {
+        return NextResponse.json(
+          { message: 'Email atau password tidak betul' },
           { status: 401 }
         )
       }
 
       // Set session cookie
       const cookieStore = await cookies()
-      cookieStore.set('admin-session', 'authenticated', {
+      cookieStore.set('admin-session', JSON.stringify({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }), {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
@@ -41,7 +64,12 @@ export async function POST(request: Request) {
       return NextResponse.json({
         success: true,
         message: 'Login berjaya',
-        user: { email: loginField }
+        user: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role
+        }
       })
     } catch (error) {
       console.error('Login error:', error)

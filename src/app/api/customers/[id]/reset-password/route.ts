@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/lib/auth"
+import { cookies } from "next/headers"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
@@ -9,13 +8,32 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    // Check admin authentication using cookie
+    const cookieStore = await cookies()
+    const adminSession = cookieStore.get('admin-session')
 
-    // Check if user is authenticated and is admin
-    if (!session || session.user.role !== 'ADMIN') {
+    if (!adminSession) {
       return NextResponse.json(
         { error: 'Unauthorized - Admin access required' },
         { status: 401 }
+      )
+    }
+
+    let sessionData
+    try {
+      sessionData = JSON.parse(adminSession.value)
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid session' },
+        { status: 401 }
+      )
+    }
+
+    // Verify admin role
+    if (sessionData.role !== 'ADMIN') {
+      return NextResponse.json(
+        { error: 'Unauthorized - Admin access required' },
+        { status: 403 }
       )
     }
 
@@ -52,7 +70,7 @@ export async function POST(
       data: {
         password: hashedPassword,
         lastPasswordResetAt: new Date(),
-        passwordResetByAdmin: session.user.id
+        passwordResetByAdmin: sessionData.id
       }
     })
 

@@ -161,7 +161,7 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json()
-    const { bookingId, status, paymentMethod, paymentStatus } = body
+    const { bookingId, status, paymentMethod, paymentStatus, staffId } = body
 
     const booking = await prisma.booking.findUnique({
       where: { id: bookingId },
@@ -173,6 +173,20 @@ export async function PATCH(request: Request) {
         { error: 'Booking not found' },
         { status: 404 }
       )
+    }
+
+    // Validate staff if being assigned/changed
+    if (staffId !== undefined && staffId !== null && staffId !== '') {
+      const staff = await prisma.staff.findUnique({
+        where: { id: staffId }
+      })
+
+      if (!staff || !staff.isActive) {
+        return NextResponse.json(
+          { error: 'Stylist yang dipilih tidak tersedia' },
+          { status: 400 }
+        )
+      }
     }
 
     // If marking as completed and payment is completed, add points
@@ -214,14 +228,19 @@ export async function PATCH(request: Request) {
       })
     }
 
+    // Prepare update data
+    const updateData: any = {}
+    if (status !== undefined) updateData.status = status
+    if (paymentStatus !== undefined) updateData.paymentStatus = paymentStatus
+    if (paymentMethod !== undefined) updateData.paymentMethod = paymentMethod
+    if (staffId !== undefined) {
+      updateData.staffId = staffId === '' ? null : staffId
+    }
+
     // Update booking
     const updatedBooking = await prisma.booking.update({
       where: { id: bookingId },
-      data: {
-        status,
-        paymentStatus,
-        paymentMethod
-      },
+      data: updateData,
       include: {
         customer: true,
         service: true,
