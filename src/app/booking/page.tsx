@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { ArrowLeft, Calendar, Clock, User, Phone, Mail, Scissors } from "lucide-react"
 
@@ -33,6 +34,7 @@ interface FormErrors {
 }
 
 export default function BookingPage() {
+  const { data: session, status } = useSession()
   const [services, setServices] = useState<Service[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
@@ -47,6 +49,13 @@ export default function BookingPage() {
     startTime: '',
     notes: ''
   })
+
+  // Load customer data from session when authenticated
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.id) {
+      loadCustomerData(session.user.id)
+    }
+  }, [status, session])
 
   useEffect(() => {
     loadData()
@@ -132,6 +141,23 @@ export default function BookingPage() {
     return Object.keys(newErrors).length === 0
   }
 
+  const loadCustomerData = async (customerId: string) => {
+    try {
+      const response = await fetch(`/api/customers/${customerId}`)
+      if (response.ok) {
+        const customer = await response.json()
+        setForm(prev => ({
+          ...prev,
+          customerName: customer.name || '',
+          customerPhone: customer.phone || '',
+          customerEmail: customer.email || ''
+        }))
+      }
+    } catch (error) {
+      console.error('Error loading customer data:', error)
+    }
+  }
+
   const loadData = async () => {
     try {
       const servicesRes = await fetch('/api/services')
@@ -158,12 +184,18 @@ export default function BookingPage() {
     setSubmitting(true)
 
     try {
+      // Include customer ID from session if available
+      const bookingData = {
+        ...form,
+        customerId: session?.user?.id || undefined
+      }
+
       const response = await fetch('/api/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify(bookingData)
       })
 
       if (response.ok) {
@@ -260,6 +292,11 @@ export default function BookingPage() {
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                 <User className="w-5 h-5 mr-2" />
                 Maklumat Pelanggan
+                {status === 'authenticated' && (
+                  <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                    Auto-Populated
+                  </span>
+                )}
               </h2>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -273,7 +310,7 @@ export default function BookingPage() {
                       errors.customerName
                         ? 'border-red-300 focus:ring-red-500'
                         : 'border-gray-300 focus:ring-rose-500'
-                    }`}
+                    } ${status === 'authenticated' ? 'bg-green-50' : ''}`}
                     value={form.customerName}
                     onChange={(e) => handleInputChange('customerName', e.target.value)}
                   />
@@ -289,7 +326,9 @@ export default function BookingPage() {
                     type="tel"
                     required
                     placeholder="01XXXXXXXX"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 ${
+                      status === 'authenticated' ? 'bg-green-50' : ''
+                    }`}
                     value={form.customerPhone}
                     onChange={(e) => setForm({...form, customerPhone: e.target.value})}
                   />
@@ -301,7 +340,9 @@ export default function BookingPage() {
                 </label>
                 <input
                   type="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 ${
+                    status === 'authenticated' ? 'bg-green-50' : ''
+                  }`}
                   value={form.customerEmail}
                   onChange={(e) => setForm({...form, customerEmail: e.target.value})}
                 />

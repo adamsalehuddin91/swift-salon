@@ -48,6 +48,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     const {
+      customerId,
       customerName,
       customerPhone,
       customerEmail,
@@ -62,18 +63,32 @@ export async function POST(request: Request) {
     validateBookingData(body)
 
     // Find or create customer
-    let customer = await prisma.customer.findUnique({
-      where: { phone: customerPhone }
-    })
+    let customer
 
-    if (!customer) {
-      customer = await prisma.customer.create({
-        data: {
-          name: customerName,
-          phone: customerPhone,
-          email: customerEmail || null
-        }
+    // If customerId is provided (from session), use it directly
+    if (customerId) {
+      customer = await prisma.customer.findUnique({
+        where: { id: customerId }
       })
+
+      if (!customer) {
+        throw new NotFoundError('Customer not found')
+      }
+    } else {
+      // Find by phone or create new customer
+      customer = await prisma.customer.findUnique({
+        where: { phone: customerPhone }
+      })
+
+      if (!customer) {
+        customer = await prisma.customer.create({
+          data: {
+            name: customerName,
+            phone: customerPhone,
+            email: customerEmail || null
+          }
+        })
+      }
     }
 
     // Get service details for pricing
