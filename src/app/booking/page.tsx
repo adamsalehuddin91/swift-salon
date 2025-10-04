@@ -255,18 +255,37 @@ export default function BookingPage() {
             Tempahan anda telah berjaya dibuat. Kami akan menghubungi anda untuk pengesahan.
           </p>
           <div className="space-y-2">
-            <Link
-              href="/booking"
-              className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
-            >
-              Buat Tempahan Lain
-            </Link>
-            <Link
-              href="/"
-              className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded-lg transition-colors"
-            >
-              Kembali ke Laman Utama
-            </Link>
+            {status === 'authenticated' && session?.user?.role === 'CUSTOMER' ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                  Pergi ke Dashboard
+                </Link>
+                <Link
+                  href="/booking"
+                  className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded-lg transition-colors"
+                >
+                  Buat Tempahan Lain
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/booking"
+                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                  Buat Tempahan Lain
+                </Link>
+                <Link
+                  href="/"
+                  className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded-lg transition-colors"
+                >
+                  Kembali ke Laman Utama
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

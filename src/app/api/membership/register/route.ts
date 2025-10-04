@@ -1,61 +1,91 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession(authOptions)
     const body = await request.json()
-    const { name, phone, email, password, membershipType } = body
+    const { name, phone, email, password, membershipType, customerId } = body
 
-    // Validate required fields
-    if (!password || password.length < 6) {
-      return NextResponse.json(
-        { error: 'Kata laluan mesti sekurang-kurangnya 6 aksara.' },
-        { status: 400 }
-      )
-    }
+    let hashedPassword = null
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    // Check if customer already exists by phone or email
-    const existingCustomer = await prisma.customer.findFirst({
-      where: {
-        OR: [
-          { phone },
-          { email }
-        ]
+    // Only require password for non-logged-in customers
+    if (!session?.user?.id && !customerId) {
+      if (!password || password.length < 6) {
+        return NextResponse.json(
+          { error: 'Kata laluan mesti sekurang-kurangnya 6 aksara.' },
+          { status: 400 }
+        )
       }
-    })
-
-    if (existingCustomer && existingCustomer.phone !== phone) {
-      return NextResponse.json(
-        { error: 'Alamat email ini telah didaftarkan. Sila gunakan alamat email lain.' },
-        { status: 400 }
-      )
+      hashedPassword = await bcrypt.hash(password, 10)
+    } else if (password && password.length >= 6) {
+      // Hash password if provided and valid
+      hashedPassword = await bcrypt.hash(password, 10)
     }
 
     let customer
+    const targetCustomerId = session?.user?.id || customerId
 
-    if (existingCustomer) {
-      // Update existing customer to be a member
+    if (targetCustomerId) {
+      // Existing logged-in customer - upgrade membership
+      customer = await prisma.customer.findUnique({
+        where: { id: targetCustomerId },
+        include: { memberships: true }
+      })
+
+      if (!customer) {
+        return NextResponse.json(
+          { error: 'Pelanggan tidak dijumpai.' },
+          { status: 404 }
+        )
+      }
+
+      // Check if customer already has an active membership of same type
+      const existingMembership = customer.memberships.find(
+        m => m.type === membershipType && m.isActive
+      )
+
+      if (existingMembership) {
+        return NextResponse.json(
+          { error: 'Anda sudah mempunyai keahlian jenis ini.' },
+          { status: 400 }
+        )
+      }
+
+      // Update customer to mark as member
       customer = await prisma.customer.update({
-        where: { phone },
-        data: {
-          name,
-          email,
-          password: hashedPassword,
-          isMember: true
-        }
+        where: { id: targetCustomerId },
+        data: { isMember: true }
       })
     } else {
+      // New customer registration
+      // Check if customer already exists by phone or email
+      const existingCustomer = await prisma.customer.findFirst({
+        where: {
+          OR: [
+            { phone },
+            { email }
+          ]
+        }
+      })
+
+      if (existingCustomer) {
+        return NextResponse.json(
+          { error: 'No. telefon atau email ini telah didaftarkan. Sila log masuk untuk menaik taraf keahlian.' },
+          { status: 400 }
+        )
+      }
+
       // Create new customer as member
       customer = await prisma.customer.create({
         data: {
           name,
           phone,
           email,
-          password: hashedPassword,
+          password: hashedPassword!,
           isMember: true,
           totalPoints: 0
         }

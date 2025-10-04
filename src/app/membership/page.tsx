@@ -154,7 +154,8 @@ export default function MembershipPage() {
           phone: form.phone,
           email: form.email,
           password: form.password,
-          membershipType: form.membershipType
+          membershipType: form.membershipType,
+          customerId: customerData?.id || session?.user?.id || undefined
         })
       })
 
@@ -181,7 +182,7 @@ export default function MembershipPage() {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Tahniah!</h2>
           <p className="text-gray-600 mb-4">
-            Anda telah berjaya mendaftar sebagai ahli SwiftSalon Muslimah.
+            Anda telah berjaya {isUpgrade ? 'menaik taraf' : 'mendaftar'} sebagai ahli SwiftSalon Muslimah.
           </p>
           <div className="bg-rose-50 p-4 rounded-lg mb-6">
             <p className="text-sm text-rose-800 font-medium">
@@ -192,18 +193,37 @@ export default function MembershipPage() {
             </p>
           </div>
           <div className="space-y-2">
-            <Link
-              href="/booking"
-              className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
-            >
-              Buat Tempahan Pertama
-            </Link>
-            <Link
-              href="/"
-              className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded-lg transition-colors"
-            >
-              Kembali ke Laman Utama
-            </Link>
+            {status === 'authenticated' && session?.user?.role === 'CUSTOMER' ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                  Pergi ke Dashboard
+                </Link>
+                <Link
+                  href="/booking"
+                  className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded-lg transition-colors"
+                >
+                  Buat Tempahan
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/booking"
+                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                >
+                  Buat Tempahan Pertama
+                </Link>
+                <Link
+                  href="/"
+                  className="block w-full border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded-lg transition-colors"
+                >
+                  Kembali ke Laman Utama
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
