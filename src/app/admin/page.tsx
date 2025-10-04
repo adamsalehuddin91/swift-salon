@@ -204,7 +204,7 @@ export default function AdminDashboard() {
                   data.popularServices.map((item: any, index: number) => (
                     <div key={item.serviceId} className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <div className="w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center mr-3">
+                        <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center mr-3">
                           <span className="text-sm font-bold text-amber-600">{index + 1}</span>
                         </div>
                         <div>
@@ -261,7 +261,7 @@ export default function AdminDashboard() {
           <div className="border-t pt-4">
             <a
               href="/qr-booking"
-              className="flex items-center justify-center p-4 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors"
+              className="flex items-center justify-center p-4 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors"
             >
               <div className="w-6 h-6 border-2 border-amber-600 rounded mr-2 flex items-center justify-center">
                 <div className="w-2 h-2 bg-amber-600 rounded-sm"></div>

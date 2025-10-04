@@ -220,7 +220,7 @@ export default function CustomersPage() {
               </button>
               <button
                 onClick={() => setShowImportModal(true)}
-                className="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-rose-700 transition-colors flex items-center justify-center"
+                className="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors flex items-center justify-center"
               >
                 <Upload className="w-4 h-4 mr-2" />
                 Import CSV/Excel

@@ -406,7 +406,7 @@ export default function SettingsPage() {
               <button
                 onClick={saveSettings}
                 disabled={saving}
-                className="bg-amber-600 hover:bg-rose-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center transition-colors"
+                className="bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center transition-colors"
               >
                 <Save className="w-4 h-4 mr-2" />
                 {saving ? 'Menyimpan...' : 'Simpan Tetapan'}

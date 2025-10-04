@@ -381,7 +381,7 @@ export default function BookingPage() {
                     className={`block p-4 border rounded-lg cursor-pointer transition-colors ${
                       form.serviceId === service.id
                         ? 'border-amber-500 bg-amber-50'
-                        : 'border-gray-300 hover:border-rose-300'
+                        : 'border-gray-300 hover:border-amber-300'
                     }`}
                   >
                     <input

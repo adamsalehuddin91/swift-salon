@@ -171,7 +171,7 @@ export default function CustomerDashboard() {
               <div className="grid md:grid-cols-2 gap-4">
                 <Link
                   href="/booking"
-                  className="flex items-center p-4 bg-amber-50 border border-rose-200 rounded-lg hover:bg-rose-100 transition-colors group"
+                  className="flex items-center p-4 bg-amber-50 border border-amber-200 rounded-lg hover:bg-amber-100 transition-colors group"
                 >
                   <Plus className="w-8 h-8 text-amber-600 mr-4 group-hover:scale-110 transition-transform" />
                   <div>
