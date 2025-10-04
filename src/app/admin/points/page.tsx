@@ -217,7 +217,7 @@ export default function PointsPage() {
             <input
               type="text"
               placeholder="Cari pelanggan..."
-              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -272,7 +272,7 @@ export default function PointsPage() {
                   <input
                     type="number"
                     min="1"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={adjustmentPoints}
                     onChange={(e) => setAdjustmentPoints(parseInt(e.target.value) || 0)}
                   />
@@ -284,7 +284,7 @@ export default function PointsPage() {
                   </label>
                   <textarea
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="Nyatakan sebab pelarasan..."
                     value={adjustmentReason}
                     onChange={(e) => setAdjustmentReason(e.target.value)}
@@ -295,7 +295,7 @@ export default function PointsPage() {
                   <button
                     onClick={adjustPoints}
                     disabled={adjustmentPoints <= 0}
-                    className="flex-1 bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white py-2 px-4 rounded-lg transition-colors"
+                    className="flex-1 bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white py-2 px-4 rounded-lg transition-colors"
                   >
                     {adjustmentType === 'add' ? 'Tambah' : 'Tolak'} Mata Ganjaran
                   </button>
@@ -316,7 +316,7 @@ export default function PointsPage() {
           <div className="overflow-x-auto">
             {loading ? (
               <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
               </div>
             ) : filteredCustomers.length > 0 ? (
               <table className="w-full">

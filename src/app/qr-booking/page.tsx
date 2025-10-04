@@ -54,10 +54,10 @@ export default function QRBookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="flex items-center mb-8">
-          <Link href="/admin" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+          <Link href="/admin" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
             <ArrowLeft className="w-5 h-5 mr-1" />
             Kembali
           </Link>
@@ -66,7 +66,7 @@ export default function QRBookingPage() {
 
         <div className="bg-white rounded-xl shadow-lg p-8">
           <div className="text-center mb-8">
-            <QrCode className="w-16 h-16 text-rose-600 mx-auto mb-4" />
+            <QrCode className="w-16 h-16 text-amber-600 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
               QR Code untuk Tempahan Online
             </h2>
@@ -92,7 +92,7 @@ export default function QRBookingPage() {
               </div>
             ) : (
               <div className="w-72 h-72 mx-auto bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-600"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600"></div>
               </div>
             )}
           </div>
@@ -174,7 +174,7 @@ export default function QRBookingPage() {
             <Link
               href="/booking"
               target="_blank"
-              className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+              className="inline-block bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg transition-colors"
             >
               Lihat Halaman Tempahan
             </Link>

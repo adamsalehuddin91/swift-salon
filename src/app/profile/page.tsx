@@ -233,9 +233,9 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Memuatkan profil...</p>
         </div>
       </div>
@@ -244,10 +244,10 @@ export default function ProfilePage() {
 
   if (!profileData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-600 mb-4">Ralat memuatkan profil</p>
-          <Link href="/dashboard" className="text-rose-600 hover:text-rose-700">
+          <Link href="/dashboard" className="text-amber-600 hover:text-amber-700">
             Kembali ke Dashboard
           </Link>
         </div>
@@ -256,11 +256,11 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="flex items-center mb-8">
-          <Link href="/dashboard" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+          <Link href="/dashboard" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
             <ArrowLeft className="w-5 h-5 mr-1" />
             Dashboard
           </Link>
@@ -291,7 +291,7 @@ export default function ProfilePage() {
                   onClick={() => setActiveTab('profile')}
                   className={`w-full flex items-center p-3 rounded-lg transition-colors ${
                     activeTab === 'profile'
-                      ? 'bg-rose-50 text-rose-600 border border-rose-200'
+                      ? 'bg-amber-50 text-amber-600 border border-amber-200'
                       : 'hover:bg-gray-50 text-gray-700'
                   }`}
                 >
@@ -303,7 +303,7 @@ export default function ProfilePage() {
                   onClick={() => setActiveTab('preferences')}
                   className={`w-full flex items-center p-3 rounded-lg transition-colors ${
                     activeTab === 'preferences'
-                      ? 'bg-rose-50 text-rose-600 border border-rose-200'
+                      ? 'bg-amber-50 text-amber-600 border border-amber-200'
                       : 'hover:bg-gray-50 text-gray-700'
                   }`}
                 >
@@ -315,7 +315,7 @@ export default function ProfilePage() {
                   onClick={() => setActiveTab('membership')}
                   className={`w-full flex items-center p-3 rounded-lg transition-colors ${
                     activeTab === 'membership'
-                      ? 'bg-rose-50 text-rose-600 border border-rose-200'
+                      ? 'bg-amber-50 text-amber-600 border border-amber-200'
                       : 'hover:bg-gray-50 text-gray-700'
                   }`}
                 >
@@ -327,7 +327,7 @@ export default function ProfilePage() {
                   onClick={() => setActiveTab('password')}
                   className={`w-full flex items-center p-3 rounded-lg transition-colors ${
                     activeTab === 'password'
-                      ? 'bg-rose-50 text-rose-600 border border-rose-200'
+                      ? 'bg-amber-50 text-amber-600 border border-amber-200'
                       : 'hover:bg-gray-50 text-gray-700'
                   }`}
                 >
@@ -354,7 +354,7 @@ export default function ProfilePage() {
                       <input
                         type="text"
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={profileForm.name}
                         onChange={(e) => setProfileForm({...profileForm, name: e.target.value})}
                       />
@@ -367,7 +367,7 @@ export default function ProfilePage() {
                       <input
                         type="tel"
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={profileForm.phone}
                         onChange={(e) => setProfileForm({...profileForm, phone: e.target.value})}
                       />
@@ -380,7 +380,7 @@ export default function ProfilePage() {
                       <input
                         type="email"
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={profileForm.email}
                         onChange={(e) => setProfileForm({...profileForm, email: e.target.value})}
                       />
@@ -391,7 +391,7 @@ export default function ProfilePage() {
                     <button
                       onClick={updateProfile}
                       disabled={saving}
-                      className="flex items-center px-6 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 disabled:bg-gray-400 transition-colors"
+                      className="flex items-center px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 disabled:bg-gray-400 transition-colors"
                     >
                       <Save className="w-4 h-4 mr-2" />
                       {saving ? 'Menyimpan...' : 'Simpan Perubahan'}
@@ -418,7 +418,7 @@ export default function ProfilePage() {
                           onChange={(e) => setPreferences({...preferences, whatsappNotifications: e.target.checked})}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-rose-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
                       </label>
                     </div>
 
@@ -434,7 +434,7 @@ export default function ProfilePage() {
                           onChange={(e) => setPreferences({...preferences, emailNotifications: e.target.checked})}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-rose-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
                       </label>
                     </div>
 
@@ -450,7 +450,7 @@ export default function ProfilePage() {
                           onChange={(e) => setPreferences({...preferences, marketingEmails: e.target.checked})}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-rose-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
                       </label>
                     </div>
                   </div>
@@ -459,7 +459,7 @@ export default function ProfilePage() {
                     <button
                       onClick={updatePreferences}
                       disabled={saving}
-                      className="flex items-center px-6 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 disabled:bg-gray-400 transition-colors"
+                      className="flex items-center px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 disabled:bg-gray-400 transition-colors"
                     >
                       <Save className="w-4 h-4 mr-2" />
                       {saving ? 'Menyimpan...' : 'Simpan Keutamaan'}
@@ -542,7 +542,7 @@ export default function ProfilePage() {
                       <input
                         type="password"
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={passwordForm.currentPassword}
                         onChange={(e) => setPasswordForm({...passwordForm, currentPassword: e.target.value})}
                       />
@@ -555,7 +555,7 @@ export default function ProfilePage() {
                       <input
                         type="password"
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={passwordForm.newPassword}
                         onChange={(e) => setPasswordForm({...passwordForm, newPassword: e.target.value})}
                       />
@@ -569,7 +569,7 @@ export default function ProfilePage() {
                       <input
                         type="password"
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={passwordForm.confirmPassword}
                         onChange={(e) => setPasswordForm({...passwordForm, confirmPassword: e.target.value})}
                       />
@@ -580,7 +580,7 @@ export default function ProfilePage() {
                     <button
                       onClick={updatePassword}
                       disabled={saving || !passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword}
-                      className="flex items-center px-6 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 disabled:bg-gray-400 transition-colors"
+                      className="flex items-center px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 disabled:bg-gray-400 transition-colors"
                     >
                       <Shield className="w-4 h-4 mr-2" />
                       {saving ? 'Menyimpan...' : 'Tukar Kata Laluan'}

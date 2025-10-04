@@ -49,7 +49,7 @@ export default function AdminDashboard() {
     return (
       <AdminLayout title="Dashboard">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
         </div>
       </AdminLayout>
     )
@@ -91,8 +91,8 @@ export default function AdminDashboard() {
       title: "Pendapatan Bulan Ini",
       value: `RM${data.monthlyRevenue.toFixed(2)}`,
       icon: DollarSign,
-      color: "bg-rose-500",
-      textColor: "text-rose-600"
+      color: "bg-amber-500",
+      textColor: "text-amber-600"
     },
     {
       title: "Jumlah Pelanggan",
@@ -205,7 +205,7 @@ export default function AdminDashboard() {
                     <div key={item.serviceId} className="flex items-center justify-between">
                       <div className="flex items-center">
                         <div className="w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center mr-3">
-                          <span className="text-sm font-bold text-rose-600">{index + 1}</span>
+                          <span className="text-sm font-bold text-amber-600">{index + 1}</span>
                         </div>
                         <div>
                           <p className="font-medium text-gray-800">{item.service?.name}</p>
@@ -263,10 +263,10 @@ export default function AdminDashboard() {
               href="/qr-booking"
               className="flex items-center justify-center p-4 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors"
             >
-              <div className="w-6 h-6 border-2 border-rose-600 rounded mr-2 flex items-center justify-center">
-                <div className="w-2 h-2 bg-rose-600 rounded-sm"></div>
+              <div className="w-6 h-6 border-2 border-amber-600 rounded mr-2 flex items-center justify-center">
+                <div className="w-2 h-2 bg-amber-600 rounded-sm"></div>
               </div>
-              <span className="font-medium text-rose-600">Jana QR Code Tempahan</span>
+              <span className="font-medium text-amber-600">Jana QR Code Tempahan</span>
             </a>
           </div>
         </div>

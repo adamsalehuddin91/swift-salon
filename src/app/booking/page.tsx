@@ -234,9 +234,9 @@ export default function BookingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Memuatkan...</p>
         </div>
       </div>
@@ -245,7 +245,7 @@ export default function BookingPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="bg-white rounded-xl p-8 shadow-lg text-center max-w-md">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Calendar className="w-8 h-8 text-green-600" />
@@ -259,7 +259,7 @@ export default function BookingPage() {
               <>
                 <Link
                   href="/dashboard"
-                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                  className="block w-full bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
                   Pergi ke Dashboard
                 </Link>
@@ -274,7 +274,7 @@ export default function BookingPage() {
               <>
                 <Link
                   href="/booking"
-                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                  className="block w-full bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
                   Buat Tempahan Lain
                 </Link>
@@ -293,11 +293,11 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         {/* Header */}
         <div className="flex items-center mb-8">
-          <Link href="/" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+          <Link href="/" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
             <ArrowLeft className="w-5 h-5 mr-1" />
             Kembali
           </Link>
@@ -328,7 +328,7 @@ export default function BookingPage() {
                     className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                       errors.customerName
                         ? 'border-red-300 focus:ring-red-500'
-                        : 'border-gray-300 focus:ring-rose-500'
+                        : 'border-gray-300 focus:ring-amber-500'
                     } ${status === 'authenticated' ? 'bg-green-50' : ''}`}
                     value={form.customerName}
                     onChange={(e) => handleInputChange('customerName', e.target.value)}
@@ -345,7 +345,7 @@ export default function BookingPage() {
                     type="tel"
                     required
                     placeholder="01XXXXXXXX"
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 ${
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 ${
                       status === 'authenticated' ? 'bg-green-50' : ''
                     }`}
                     value={form.customerPhone}
@@ -359,7 +359,7 @@ export default function BookingPage() {
                 </label>
                 <input
                   type="email"
-                  className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 ${
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 ${
                     status === 'authenticated' ? 'bg-green-50' : ''
                   }`}
                   value={form.customerEmail}
@@ -380,7 +380,7 @@ export default function BookingPage() {
                     key={service.id}
                     className={`block p-4 border rounded-lg cursor-pointer transition-colors ${
                       form.serviceId === service.id
-                        ? 'border-rose-500 bg-rose-50'
+                        ? 'border-amber-500 bg-amber-50'
                         : 'border-gray-300 hover:border-rose-300'
                     }`}
                   >
@@ -403,7 +403,7 @@ export default function BookingPage() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-rose-600">RM{service.price}</p>
+                        <p className="font-bold text-amber-600">RM{service.price}</p>
                       </div>
                     </div>
                   </label>
@@ -426,7 +426,7 @@ export default function BookingPage() {
                     type="date"
                     required
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.bookingDate}
                     onChange={(e) => setForm({...form, bookingDate: e.target.value})}
                   />
@@ -438,7 +438,7 @@ export default function BookingPage() {
                   <input
                     type="time"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.startTime}
                     onChange={(e) => setForm({...form, startTime: e.target.value})}
                   />
@@ -466,7 +466,7 @@ export default function BookingPage() {
               </label>
               <textarea
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 placeholder="Sebarang permintaan khas..."
                 value={form.notes}
                 onChange={(e) => setForm({...form, notes: e.target.value})}
@@ -478,7 +478,7 @@ export default function BookingPage() {
               <button
                 type="submit"
                 disabled={submitting || !form.customerName || !form.customerPhone || !form.serviceId || !form.bookingDate || !form.startTime}
-                className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
               >
                 {submitting ? 'Memproses...' : 'Buat Tempahan'}
               </button>

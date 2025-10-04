@@ -175,7 +175,7 @@ export default function MembershipPage() {
 
   if (step === 'success') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="bg-white rounded-xl p-8 shadow-lg text-center max-w-md">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Check className="w-8 h-8 text-green-600" />
@@ -184,11 +184,11 @@ export default function MembershipPage() {
           <p className="text-gray-600 mb-4">
             Anda telah berjaya {isUpgrade ? 'menaik taraf' : 'mendaftar'} sebagai ahli SwiftSalon Muslimah.
           </p>
-          <div className="bg-rose-50 p-4 rounded-lg mb-6">
-            <p className="text-sm text-rose-800 font-medium">
+          <div className="bg-amber-50 p-4 rounded-lg mb-6">
+            <p className="text-sm text-amber-800 font-medium">
               Jenis Keahlian: {membershipTiers.find(t => t.type === form.membershipType)?.name}
             </p>
-            <p className="text-xs text-rose-600 mt-1">
+            <p className="text-xs text-amber-600 mt-1">
               Mula kumpul points dari tempahan seterusnya!
             </p>
           </div>
@@ -197,7 +197,7 @@ export default function MembershipPage() {
               <>
                 <Link
                   href="/dashboard"
-                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                  className="block w-full bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
                   Pergi ke Dashboard
                 </Link>
@@ -212,7 +212,7 @@ export default function MembershipPage() {
               <>
                 <Link
                   href="/booking"
-                  className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+                  className="block w-full bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg transition-colors"
                 >
                   Buat Tempahan Pertama
                 </Link>
@@ -235,12 +235,12 @@ export default function MembershipPage() {
     const Icon = selectedTier.icon
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
         <div className="container mx-auto px-4 py-8 max-w-2xl">
           <div className="flex items-center mb-8">
             <button
               onClick={() => setStep('info')}
-              className="flex items-center text-rose-600 hover:text-rose-700 mr-4"
+              className="flex items-center text-amber-600 hover:text-amber-700 mr-4"
             >
               <ArrowLeft className="w-5 h-5 mr-1" />
               Kembali
@@ -256,7 +256,7 @@ export default function MembershipPage() {
                   <Icon className={`w-8 h-8 ${selectedTier.iconColor} mr-3`} />
                   <div>
                     <h3 className="text-xl font-bold text-gray-800">{selectedTier.name}</h3>
-                    <p className="text-lg font-semibold text-rose-600">{selectedTier.price}</p>
+                    <p className="text-lg font-semibold text-amber-600">{selectedTier.price}</p>
                   </div>
                 </div>
                 <button
@@ -325,7 +325,7 @@ export default function MembershipPage() {
                       <input
                         type="text"
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={form.name}
                         onChange={(e) => setForm({...form, name: e.target.value})}
                       />
@@ -339,7 +339,7 @@ export default function MembershipPage() {
                         type="tel"
                         required
                         placeholder="01XXXXXXXX"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={form.phone}
                         onChange={(e) => setForm({...form, phone: e.target.value})}
                       />
@@ -353,7 +353,7 @@ export default function MembershipPage() {
                         type="email"
                         required
                         placeholder="email@example.com"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                         value={form.email}
                         onChange={(e) => setForm({...form, email: e.target.value})}
                       />
@@ -369,7 +369,7 @@ export default function MembershipPage() {
                           type="password"
                           required
                           placeholder="Sekurang-kurangnya 6 aksara"
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                           value={form.password}
                           onChange={(e) => setForm({...form, password: e.target.value})}
                         />
@@ -386,7 +386,7 @@ export default function MembershipPage() {
                           type="password"
                           required
                           placeholder="Masukkan kata laluan sekali lagi"
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                           value={form.confirmPassword}
                           onChange={(e) => setForm({...form, confirmPassword: e.target.value})}
                         />
@@ -408,7 +408,7 @@ export default function MembershipPage() {
                 <button
                   type="submit"
                   disabled={loading || (!customerData && (!form.name || !form.phone || !form.email))}
-                  className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                  className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                 >
                   {loading ? 'Memproses...' : (customerData ? (isUpgrade ? 'Upgrade Keahlian' : 'Daftar Keahlian') : 'Daftar Sekarang')}
                 </button>
@@ -421,10 +421,10 @@ export default function MembershipPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center mb-8">
-          <Link href="/" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+          <Link href="/" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
             <ArrowLeft className="w-5 h-5 mr-1" />
             Kembali
           </Link>
@@ -451,17 +451,17 @@ export default function MembershipPage() {
                 key={tier.type}
                 className={`border-2 rounded-xl p-6 cursor-pointer transition-all ${
                   isSelected
-                    ? 'border-rose-500 bg-rose-50 shadow-lg scale-105'
+                    ? 'border-amber-500 bg-amber-50 shadow-lg scale-105'
                     : `${tier.color} hover:shadow-lg hover:scale-102`
                 }`}
                 onClick={() => setForm({...form, membershipType: tier.type})}
               >
                 <div className="text-center">
                   <Icon className={`w-12 h-12 mx-auto mb-4 ${
-                    isSelected ? 'text-rose-600' : tier.iconColor
+                    isSelected ? 'text-amber-600' : tier.iconColor
                   }`} />
                   <h3 className="text-xl font-bold text-gray-800 mb-2">{tier.name}</h3>
-                  <p className="text-lg font-semibold text-rose-600 mb-4">{tier.price}</p>
+                  <p className="text-lg font-semibold text-amber-600 mb-4">{tier.price}</p>
 
                   <div className="space-y-2 text-sm text-gray-600">
                     {tier.benefits.map((benefit, index) => (
@@ -480,7 +480,7 @@ export default function MembershipPage() {
         <div className="text-center">
           <button
             onClick={() => setStep('form')}
-            className="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+            className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             Teruskan dengan {membershipTiers.find(t => t.type === form.membershipType)?.name}
           </button>

@@ -186,7 +186,7 @@ export default function CustomersPage() {
                 <input
                   type="text"
                   placeholder="Nama, telefon, email..."
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -198,7 +198,7 @@ export default function CustomersPage() {
                 Status Keahlian
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={memberFilter}
                 onChange={(e) => setMemberFilter(e.target.value)}
               >
@@ -220,7 +220,7 @@ export default function CustomersPage() {
               </button>
               <button
                 onClick={() => setShowImportModal(true)}
-                className="flex-1 px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors flex items-center justify-center"
+                className="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-rose-700 transition-colors flex items-center justify-center"
               >
                 <Upload className="w-4 h-4 mr-2" />
                 Import CSV/Excel
@@ -240,7 +240,7 @@ export default function CustomersPage() {
           <div className="overflow-x-auto">
             {loading ? (
               <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
               </div>
             ) : filteredCustomers.length > 0 ? (
               <table className="w-full">

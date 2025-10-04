@@ -130,7 +130,7 @@ export default function SettingsPage() {
     return (
       <AdminLayout title="Tetapan Perniagaan">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
         </div>
       </AdminLayout>
     )
@@ -157,7 +157,7 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab('business')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'business'
-                    ? 'border-rose-500 text-rose-600'
+                    ? 'border-amber-500 text-amber-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -168,7 +168,7 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab('hours')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'hours'
-                    ? 'border-rose-500 text-rose-600'
+                    ? 'border-amber-500 text-amber-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -179,7 +179,7 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab('points')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'points'
-                    ? 'border-rose-500 text-rose-600'
+                    ? 'border-amber-500 text-amber-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -205,7 +205,7 @@ export default function SettingsPage() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       value={settings.name}
                       onChange={(e) => updateSettings('name', e.target.value)}
                     />
@@ -218,7 +218,7 @@ export default function SettingsPage() {
                     </label>
                     <input
                       type="tel"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       value={settings.phone || ''}
                       onChange={(e) => updateSettings('phone', e.target.value)}
                     />
@@ -231,7 +231,7 @@ export default function SettingsPage() {
                     </label>
                     <input
                       type="email"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       value={settings.email || ''}
                       onChange={(e) => updateSettings('email', e.target.value)}
                     />
@@ -245,7 +245,7 @@ export default function SettingsPage() {
                     <input
                       type="tel"
                       placeholder="60123456789"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       value={settings.whatsappNumber || ''}
                       onChange={(e) => updateSettings('whatsappNumber', e.target.value)}
                     />
@@ -259,7 +259,7 @@ export default function SettingsPage() {
                   </label>
                   <textarea
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={settings.address || ''}
                     onChange={(e) => updateSettings('address', e.target.value)}
                   />
@@ -299,14 +299,14 @@ export default function SettingsPage() {
                           <div className="flex items-center space-x-2">
                             <input
                               type="time"
-                              className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-rose-500"
+                              className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
                               value={daySettings.openTime || '09:00'}
                               onChange={(e) => updateBusinessHours(day.key, 'openTime', e.target.value)}
                             />
                             <span className="text-gray-500">hingga</span>
                             <input
                               type="time"
-                              className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-rose-500"
+                              className="px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
                               value={daySettings.closeTime || '18:00'}
                               onChange={(e) => updateBusinessHours(day.key, 'closeTime', e.target.value)}
                             />
@@ -336,7 +336,7 @@ export default function SettingsPage() {
                     <input
                       type="number"
                       min="1"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       value={settings.pointsPerRinggit}
                       onChange={(e) => updateSettings('pointsPerRinggit', parseInt(e.target.value) || 1)}
                     />
@@ -360,7 +360,7 @@ export default function SettingsPage() {
                           type="number"
                           min="0"
                           step="0.01"
-                          className="w-20 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          className="w-20 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
                           value={settings.pointRedemptionRates["50"]}
                           onChange={(e) => updatePointRedemption("50", parseFloat(e.target.value) || 0)}
                         />
@@ -378,7 +378,7 @@ export default function SettingsPage() {
                           type="number"
                           min="0"
                           step="0.01"
-                          className="w-20 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          className="w-20 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-500"
                           value={settings.pointRedemptionRates["100"]}
                           onChange={(e) => updatePointRedemption("100", parseFloat(e.target.value) || 0)}
                         />
@@ -406,7 +406,7 @@ export default function SettingsPage() {
               <button
                 onClick={saveSettings}
                 disabled={saving}
-                className="bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center transition-colors"
+                className="bg-amber-600 hover:bg-rose-700 disabled:bg-gray-400 text-white px-6 py-2 rounded-lg flex items-center transition-colors"
               >
                 <Save className="w-4 h-4 mr-2" />
                 {saving ? 'Menyimpan...' : 'Simpan Tetapan'}

@@ -192,9 +192,9 @@ export default function MyBookingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Memuatkan tempahan...</p>
         </div>
       </div>
@@ -202,12 +202,12 @@ export default function MyBookingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
           <div className="flex items-center mb-4 md:mb-0">
-            <Link href="/dashboard" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+            <Link href="/dashboard" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
               <ArrowLeft className="w-5 h-5 mr-1" />
               Dashboard
             </Link>
@@ -216,7 +216,7 @@ export default function MyBookingsPage() {
 
           <Link
             href="/booking"
-            className="flex items-center px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors"
+            className="flex items-center px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
           >
             <Plus className="w-4 h-4 mr-2" />
             Tempahan Baru
@@ -232,7 +232,7 @@ export default function MyBookingsPage() {
               <input
                 type="text"
                 placeholder="Cari servis atau staff..."
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -240,7 +240,7 @@ export default function MyBookingsPage() {
 
             {/* Status Filter */}
             <select
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -254,7 +254,7 @@ export default function MyBookingsPage() {
 
             {/* Date Filter */}
             <select
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
             >
@@ -276,7 +276,7 @@ export default function MyBookingsPage() {
                     setStatusFilter('ALL')
                     setDateFilter('ALL')
                   }}
-                  className="ml-2 text-rose-600 hover:text-rose-700"
+                  className="ml-2 text-amber-600 hover:text-amber-700"
                 >
                   Bersihkan filter
                 </button>
@@ -331,7 +331,7 @@ export default function MyBookingsPage() {
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
-                        <span className="text-lg font-bold text-rose-600">RM{booking.total}</span>
+                        <span className="text-lg font-bold text-amber-600">RM{booking.total}</span>
                         {booking.pointsEarned && booking.pointsEarned > 0 && (
                           <div className="flex items-center text-sm text-yellow-600">
                             <Star className="w-4 h-4 mr-1" />
@@ -353,7 +353,7 @@ export default function MyBookingsPage() {
                         {booking.status === 'COMPLETED' && (
                           <Link
                             href={`/booking?rebook=${booking.id}`}
-                            className="px-3 py-1 text-rose-600 border border-rose-200 rounded-lg hover:bg-rose-50 transition-colors text-sm"
+                            className="px-3 py-1 text-amber-600 border border-amber-200 rounded-lg hover:bg-amber-50 transition-colors text-sm"
                           >
                             Tempah Lagi
                           </Link>
@@ -379,7 +379,7 @@ export default function MyBookingsPage() {
             </p>
             <Link
               href="/booking"
-              className="inline-flex items-center px-6 py-3 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
             >
               <Plus className="w-5 h-5 mr-2" />
               {bookings.length === 0 ? 'Buat Tempahan Pertama' : 'Tempahan Baru'}

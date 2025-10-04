@@ -180,11 +180,11 @@ export default function ServicesPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Harga Tertinggi</p>
-                <p className="text-2xl font-bold text-rose-600 mt-1">
+                <p className="text-2xl font-bold text-amber-600 mt-1">
                   RM{Math.max(...services.filter(s => s.isActive).map(s => Number(s.price)))}
                 </p>
               </div>
-              <div className="bg-rose-500 p-3 rounded-full">
+              <div className="bg-amber-500 p-3 rounded-full">
                 <DollarSign className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -211,7 +211,7 @@ export default function ServicesPage() {
             <h2 className="text-lg font-semibold text-gray-800">Pengurusan Servis</h2>
             <button
               onClick={() => setShowForm(true)}
-              className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg flex items-center"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg flex items-center"
             >
               <Plus className="w-4 h-4 mr-2" />
               Tambah Servis
@@ -225,7 +225,7 @@ export default function ServicesPage() {
                 <input
                   type="text"
                   placeholder="Cari servis..."
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -234,7 +234,7 @@ export default function ServicesPage() {
 
             <div>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
               >
@@ -275,7 +275,7 @@ export default function ServicesPage() {
                   <input
                     type="text"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.name}
                     onChange={(e) => setForm({...form, name: e.target.value})}
                   />
@@ -287,7 +287,7 @@ export default function ServicesPage() {
                   </label>
                   <textarea
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.description}
                     onChange={(e) => setForm({...form, description: e.target.value})}
                   />
@@ -303,7 +303,7 @@ export default function ServicesPage() {
                       required
                       min="0"
                       step="0.01"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       value={form.price}
                       onChange={(e) => setForm({...form, price: parseFloat(e.target.value) || 0})}
                     />
@@ -318,7 +318,7 @@ export default function ServicesPage() {
                       required
                       min="15"
                       step="15"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                       value={form.duration}
                       onChange={(e) => setForm({...form, duration: parseInt(e.target.value) || 30})}
                     />
@@ -331,7 +331,7 @@ export default function ServicesPage() {
                   </label>
                   <select
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.category}
                     onChange={(e) => setForm({...form, category: e.target.value})}
                   >
@@ -344,7 +344,7 @@ export default function ServicesPage() {
                 <div className="flex space-x-3 pt-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-rose-600 hover:bg-rose-700 text-white py-2 px-4 rounded-lg transition-colors"
+                    className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg transition-colors"
                   >
                     {editingService ? 'Kemaskini' : 'Tambah'} Servis
                   </button>
@@ -366,7 +366,7 @@ export default function ServicesPage() {
           <div className="overflow-x-auto">
             {loading ? (
               <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
               </div>
             ) : filteredServices.length > 0 ? (
               <table className="w-full">

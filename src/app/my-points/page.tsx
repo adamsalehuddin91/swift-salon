@@ -168,9 +168,9 @@ export default function MyPointsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Memuatkan data points...</p>
         </div>
       </div>
@@ -179,10 +179,10 @@ export default function MyPointsPage() {
 
   if (!pointsData || !pointsStats) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-600 mb-4">Ralat memuatkan data points</p>
-          <Link href="/dashboard" className="text-rose-600 hover:text-rose-700">
+          <Link href="/dashboard" className="text-amber-600 hover:text-amber-700">
             Kembali ke Dashboard
           </Link>
         </div>
@@ -191,11 +191,11 @@ export default function MyPointsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center mb-8">
-          <Link href="/dashboard" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+          <Link href="/dashboard" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
             <ArrowLeft className="w-5 h-5 mr-1" />
             Dashboard
           </Link>
@@ -260,7 +260,7 @@ export default function MyPointsPage() {
                 <h2 className="text-xl font-bold text-gray-800">Sejarah Points</h2>
                 <div className="flex space-x-2">
                   <select
-                    className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={historyFilter}
                     onChange={(e) => setHistoryFilter(e.target.value)}
                   >
@@ -310,7 +310,7 @@ export default function MyPointsPage() {
             {/* Membership Multiplier Info */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center mr-3">
+                <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mr-3">
                   {pointsData.membershipType === 'PLATINUM' ? (
                     <Crown className="w-5 h-5 text-purple-600" />
                   ) : pointsData.membershipType === 'GOLD' ? (
@@ -337,7 +337,7 @@ export default function MyPointsPage() {
                 <div className="border-t pt-4">
                   <Link
                     href="/membership"
-                    className="text-rose-600 hover:text-rose-700 text-sm font-medium"
+                    className="text-amber-600 hover:text-amber-700 text-sm font-medium"
                   >
                     Naik taraf untuk lebih points →
                   </Link>
@@ -359,7 +359,7 @@ export default function MyPointsPage() {
                       key={reward.id}
                       className={`p-4 border rounded-lg transition-all ${
                         isAvailable
-                          ? 'border-rose-200 bg-rose-50 hover:bg-rose-100 cursor-pointer'
+                          ? 'border-amber-200 bg-amber-50 hover:bg-amber-100 cursor-pointer'
                           : 'border-gray-200 bg-gray-50 opacity-60'
                       }`}
                       onClick={() => isAvailable && setShowRedeemConfirm(reward)}
@@ -368,7 +368,7 @@ export default function MyPointsPage() {
                         <div className="flex-1">
                           <h4 className="font-semibold text-gray-800">{reward.value}</h4>
                           <p className="text-xs text-gray-600 mt-1">{reward.description}</p>
-                          <p className="text-sm font-medium text-rose-600 mt-2">
+                          <p className="text-sm font-medium text-amber-600 mt-2">
                             {reward.points} points
                           </p>
                         </div>
@@ -393,7 +393,7 @@ export default function MyPointsPage() {
               <div className="mt-6 pt-4 border-t">
                 <Link
                   href="/booking"
-                  className="flex items-center justify-center w-full py-2 text-rose-600 border border-rose-200 rounded-lg hover:bg-rose-50 transition-colors text-sm"
+                  className="flex items-center justify-center w-full py-2 text-amber-600 border border-amber-200 rounded-lg hover:bg-amber-50 transition-colors text-sm"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Kumpul lebih points
@@ -410,19 +410,19 @@ export default function MyPointsPage() {
 
               <div className="space-y-3 text-sm">
                 <div className="flex items-start">
-                  <div className="w-2 h-2 bg-rose-600 rounded-full mt-2 mr-3"></div>
+                  <div className="w-2 h-2 bg-amber-600 rounded-full mt-2 mr-3"></div>
                   <p className="text-gray-600">Buat tempahan regular untuk kumpul points konsisten</p>
                 </div>
                 <div className="flex items-start">
-                  <div className="w-2 h-2 bg-rose-600 rounded-full mt-2 mr-3"></div>
+                  <div className="w-2 h-2 bg-amber-600 rounded-full mt-2 mr-3"></div>
                   <p className="text-gray-600">Naik taraf keahlian untuk dapatkan multiplier points</p>
                 </div>
                 <div className="flex items-start">
-                  <div className="w-2 h-2 bg-rose-600 rounded-full mt-2 mr-3"></div>
+                  <div className="w-2 h-2 bg-amber-600 rounded-full mt-2 mr-3"></div>
                   <p className="text-gray-600">Tebus points sebelum tamat tempoh (6 bulan)</p>
                 </div>
                 <div className="flex items-start">
-                  <div className="w-2 h-2 bg-rose-600 rounded-full mt-2 mr-3"></div>
+                  <div className="w-2 h-2 bg-amber-600 rounded-full mt-2 mr-3"></div>
                   <p className="text-gray-600">Dapatkan bonus points melalui program khas</p>
                 </div>
               </div>
@@ -462,7 +462,7 @@ export default function MyPointsPage() {
                   <button
                     onClick={() => redeemPoints(showRedeemConfirm)}
                     disabled={redeeming}
-                    className="flex-1 px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors disabled:opacity-50"
+                    className="flex-1 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors disabled:opacity-50"
                   >
                     {redeeming ? 'Menebus...' : 'Tebus Sekarang'}
                   </button>

@@ -111,9 +111,9 @@ export default function CustomerDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Memuatkan data...</p>
         </div>
       </div>
@@ -122,10 +122,10 @@ export default function CustomerDashboard() {
 
   if (!customerData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-600 mb-4">Ralat memuatkan data pelanggan</p>
-          <Link href="/" className="text-rose-600 hover:text-rose-700">
+          <Link href="/" className="text-amber-600 hover:text-amber-700">
             Kembali ke Laman Utama
           </Link>
         </div>
@@ -136,7 +136,7 @@ export default function CustomerDashboard() {
   const MembershipIcon = getMembershipIcon(customerData.membershipType)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -171,9 +171,9 @@ export default function CustomerDashboard() {
               <div className="grid md:grid-cols-2 gap-4">
                 <Link
                   href="/booking"
-                  className="flex items-center p-4 bg-rose-50 border border-rose-200 rounded-lg hover:bg-rose-100 transition-colors group"
+                  className="flex items-center p-4 bg-amber-50 border border-rose-200 rounded-lg hover:bg-rose-100 transition-colors group"
                 >
-                  <Plus className="w-8 h-8 text-rose-600 mr-4 group-hover:scale-110 transition-transform" />
+                  <Plus className="w-8 h-8 text-amber-600 mr-4 group-hover:scale-110 transition-transform" />
                   <div>
                     <h3 className="font-semibold text-gray-800">Buat Tempahan</h3>
                     <p className="text-sm text-gray-600">Tempah servis baru</p>
@@ -199,7 +199,7 @@ export default function CustomerDashboard() {
                 <h2 className="text-xl font-bold text-gray-800">Tempahan Terkini</h2>
                 <Link
                   href="/my-bookings"
-                  className="text-rose-600 hover:text-rose-700 text-sm font-medium"
+                  className="text-amber-600 hover:text-amber-700 text-sm font-medium"
                 >
                   Lihat Semua
                 </Link>
@@ -220,7 +220,7 @@ export default function CustomerDashboard() {
                           <Calendar className="w-4 h-4 mr-1" />
                           {new Date(booking.date).toLocaleDateString('ms-MY')}
                         </div>
-                        <span className="font-semibold text-rose-600">RM{booking.total}</span>
+                        <span className="font-semibold text-amber-600">RM{booking.total}</span>
                       </div>
                     </div>
                   ))}
@@ -231,7 +231,7 @@ export default function CustomerDashboard() {
                   <p className="text-gray-600 mb-4">Belum ada tempahan</p>
                   <Link
                     href="/booking"
-                    className="inline-flex items-center px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors"
+                    className="inline-flex items-center px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Buat Tempahan Pertama
@@ -266,7 +266,7 @@ export default function CustomerDashboard() {
               <div className="border-t pt-4">
                 <Link
                   href="/membership"
-                  className="text-rose-600 hover:text-rose-700 text-sm font-medium"
+                  className="text-amber-600 hover:text-amber-700 text-sm font-medium"
                 >
                   Naik Taraf Keahlian →
                 </Link>
@@ -301,7 +301,7 @@ export default function CustomerDashboard() {
               <div className="border-t pt-4">
                 <Link
                   href="/my-points"
-                  className="text-rose-600 hover:text-rose-700 text-sm font-medium"
+                  className="text-amber-600 hover:text-amber-700 text-sm font-medium"
                 >
                   Tebus Points →
                 </Link>
@@ -325,7 +325,7 @@ export default function CustomerDashboard() {
               <div className="border-t pt-4 mt-4">
                 <Link
                   href="/profile"
-                  className="text-rose-600 hover:text-rose-700 text-sm font-medium"
+                  className="text-amber-600 hover:text-amber-700 text-sm font-medium"
                 >
                   Kemaskini Maklumat →
                 </Link>

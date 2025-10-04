@@ -3,7 +3,7 @@ import { Calendar, Users, Scissors, BarChart3, Star, Clock } from "lucide-react"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
       <div className="container mx-auto px-4 py-16">
         {/* Header */}
         <header className="text-center mb-16">
@@ -16,7 +16,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/booking"
-              className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Tempah Sekarang
             </Link>
@@ -28,7 +28,7 @@ export default function Home() {
             </Link>
             <Link
               href="/login"
-              className="border border-rose-600 text-rose-600 hover:bg-rose-50 px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="border border-amber-600 text-amber-600 hover:bg-amber-50 px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Log Masuk
             </Link>
@@ -38,37 +38,37 @@ export default function Home() {
         {/* Features Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <Calendar className="w-12 h-12 text-rose-600 mb-4" />
+            <Calendar className="w-12 h-12 text-amber-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Tempahan Mudah</h3>
             <p className="text-gray-600">Booking via WhatsApp, QR code atau link terus. Mudah dan cepat!</p>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <Users className="w-12 h-12 text-rose-600 mb-4" />
+            <Users className="w-12 h-12 text-amber-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Staff Wanita</h3>
             <p className="text-gray-600">Hanya staff wanita untuk menjaga privasi dan kenyamanan pelanggan muslimah.</p>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <Star className="w-12 h-12 text-rose-600 mb-4" />
+            <Star className="w-12 h-12 text-amber-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Membership & Points</h3>
             <p className="text-gray-600">Kumpul mata ganjaran setiap kali datang. Tebus untuk diskaun atau servis percuma!</p>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <Scissors className="w-12 h-12 text-rose-600 mb-4" />
+            <Scissors className="w-12 h-12 text-amber-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Servis Lengkap</h3>
             <p className="text-gray-600">Cuci rambut, blow dry, facial, henna, spa kaki - semua untuk wanita muslimah.</p>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <Clock className="w-12 h-12 text-rose-600 mb-4" />
+            <Clock className="w-12 h-12 text-amber-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">WhatsApp Reminder</h3>
             <p className="text-gray-600">Automatic reminder 1 hari sebelum appointment supaya tak terlupa.</p>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-            <BarChart3 className="w-12 h-12 text-rose-600 mb-4" />
+            <BarChart3 className="w-12 h-12 text-amber-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Dashboard Lengkap</h3>
             <p className="text-gray-600">Track sales, pelanggan aktif, servis popular - semua dalam satu tempat.</p>
           </div>

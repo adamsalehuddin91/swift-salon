@@ -47,10 +47,10 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
       <div className="bg-white rounded-xl p-8 shadow-lg w-full max-w-md">
         <div className="flex items-center mb-6">
-          <Link href="/" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+          <Link href="/" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
             <ArrowLeft className="w-5 h-5 mr-1" />
             Kembali
           </Link>
@@ -58,8 +58,8 @@ export default function AdminLoginPage() {
         </div>
 
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-8 h-8 text-rose-600" />
+          <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-8 h-8 text-amber-600" />
           </div>
           <h2 className="text-xl font-bold text-gray-800 mb-2">Kawasan Admin</h2>
           <p className="text-gray-600 text-sm">
@@ -83,7 +83,7 @@ export default function AdminLoginPage() {
               <input
                 type="email"
                 name="email"
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
                 placeholder="admin@swiftsalon.com"
@@ -101,7 +101,7 @@ export default function AdminLoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={formData.password}
                 onChange={(e) => setFormData({...formData, password: e.target.value})}
                 placeholder="Masukkan password"
@@ -120,7 +120,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading || !formData.email || !formData.password}
-            className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
+            className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
           >
             {loading ? (
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>

@@ -293,7 +293,7 @@ export default function StaffPage() {
             <h2 className="text-lg font-semibold text-gray-800">Pengurusan Staff</h2>
             <button
               onClick={() => setShowForm(true)}
-              className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg flex items-center"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg flex items-center"
             >
               <Plus className="w-4 h-4 mr-2" />
               Tambah Staff
@@ -307,7 +307,7 @@ export default function StaffPage() {
                 <input
                   type="text"
                   placeholder="Cari staff..."
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -316,7 +316,7 @@ export default function StaffPage() {
 
             <div>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={positionFilter}
                 onChange={(e) => setPositionFilter(e.target.value)}
               >
@@ -357,7 +357,7 @@ export default function StaffPage() {
                   <input
                     type="text"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.name}
                     onChange={(e) => setForm({...form, name: e.target.value})}
                   />
@@ -371,7 +371,7 @@ export default function StaffPage() {
                     type="tel"
                     required
                     placeholder="01XXXXXXXX"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.phone}
                     onChange={(e) => setForm({...form, phone: e.target.value})}
                   />
@@ -383,7 +383,7 @@ export default function StaffPage() {
                   </label>
                   <input
                     type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.email}
                     onChange={(e) => setForm({...form, email: e.target.value})}
                   />
@@ -395,7 +395,7 @@ export default function StaffPage() {
                   </label>
                   <select
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={form.position}
                     onChange={(e) => setForm({...form, position: e.target.value})}
                   >
@@ -408,7 +408,7 @@ export default function StaffPage() {
                 <div className="flex space-x-3 pt-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-rose-600 hover:bg-rose-700 text-white py-2 px-4 rounded-lg transition-colors"
+                    className="flex-1 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg transition-colors"
                   >
                     {editingStaff ? 'Kemaskini' : 'Tambah'} Staff
                   </button>
@@ -430,7 +430,7 @@ export default function StaffPage() {
           <div className="overflow-x-auto">
             {loading ? (
               <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
               </div>
             ) : filteredStaff.length > 0 ? (
               <table className="w-full">

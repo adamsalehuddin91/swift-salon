@@ -109,7 +109,7 @@ export default function ReportsPage() {
     return (
       <AdminLayout title="Laporan & Analitik">
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
         </div>
       </AdminLayout>
     )
@@ -150,7 +150,7 @@ export default function ReportsPage() {
                 Tempoh Masa
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={dateRange}
                 onChange={(e) => setDateRange(e.target.value)}
               >
@@ -171,7 +171,7 @@ export default function ReportsPage() {
                   </label>
                   <input
                     type="date"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                   />
@@ -183,7 +183,7 @@ export default function ReportsPage() {
                   </label>
                   <input
                     type="date"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                   />
@@ -235,9 +235,9 @@ export default function ReportsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Purata Nilai Tempahan</p>
-                <p className="text-2xl font-bold text-rose-600 mt-1">RM{data.averageBookingValue.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-amber-600 mt-1">RM{data.averageBookingValue.toFixed(2)}</p>
               </div>
-              <div className="bg-rose-500 p-3 rounded-full">
+              <div className="bg-amber-500 p-3 rounded-full">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
             </div>
@@ -258,8 +258,8 @@ export default function ReportsPage() {
                 {data.popularServices.map((service, index) => (
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center">
-                      <div className="w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-sm font-bold text-rose-600">{index + 1}</span>
+                      <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-sm font-bold text-amber-600">{index + 1}</span>
                       </div>
                       <div>
                         <p className="font-medium text-gray-800">{service.serviceName}</p>
@@ -326,7 +326,7 @@ export default function ReportsPage() {
                     <div className="flex items-center">
                       <div className="w-32 bg-gray-200 rounded-full h-2 mr-4">
                         <div
-                          className="bg-rose-600 h-2 rounded-full"
+                          className="bg-amber-600 h-2 rounded-full"
                           style={{
                             width: `${Math.max((month.revenue / Math.max(...data.revenueByMonth.map(m => m.revenue))) * 100, 5)}%`
                           }}

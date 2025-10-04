@@ -123,7 +123,7 @@ export default function PointsPage() {
 
   if (step === 'success') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
         <div className="bg-white rounded-xl p-8 shadow-lg text-center max-w-md">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />
@@ -148,7 +148,7 @@ export default function PointsPage() {
                 setSelectedRedemption(null)
                 setPhone('')
               }}
-              className="block w-full bg-rose-600 hover:bg-rose-700 text-white px-6 py-2 rounded-lg transition-colors"
+              className="block w-full bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg transition-colors"
             >
               Tebus Points Lagi
             </button>
@@ -168,12 +168,12 @@ export default function PointsPage() {
     const availableOptions = redemptionOptions.filter(option => customer.totalPoints >= option.points)
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <div className="flex items-center mb-8">
             <button
               onClick={() => setStep('search')}
-              className="flex items-center text-rose-600 hover:text-rose-700 mr-4"
+              className="flex items-center text-amber-600 hover:text-amber-700 mr-4"
             >
               <ArrowLeft className="w-5 h-5 mr-1" />
               Kembali
@@ -215,8 +215,8 @@ export default function PointsPage() {
                       !isAvailable
                         ? 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
                         : isSelected
-                        ? 'border-rose-500 bg-rose-50'
-                        : 'border-gray-300 hover:border-rose-300 hover:bg-rose-25'
+                        ? 'border-amber-500 bg-amber-50'
+                        : 'border-gray-300 hover:border-amber-300 hover:bg-amber-25'
                     }`}
                     onClick={() => isAvailable && setSelectedRedemption(option)}
                   >
@@ -241,7 +241,7 @@ export default function PointsPage() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className={`font-bold ${isAvailable ? 'text-rose-600' : 'text-gray-400'}`}>
+                        <p className={`font-bold ${isAvailable ? 'text-amber-600' : 'text-gray-400'}`}>
                           {option.points} points
                         </p>
                         {!isAvailable && (
@@ -280,7 +280,7 @@ export default function PointsPage() {
                 <button
                   onClick={redeemPoints}
                   disabled={redeeming}
-                  className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                  className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                 >
                   {redeeming ? 'Memproses...' : `Tebus ${selectedRedemption.points} Points`}
                 </button>
@@ -293,10 +293,10 @@ export default function PointsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-purple-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-purple-50 flex items-center justify-center">
       <div className="bg-white rounded-xl p-8 shadow-lg w-full max-w-md">
         <div className="flex items-center mb-6">
-          <Link href="/" className="flex items-center text-rose-600 hover:text-rose-700 mr-4">
+          <Link href="/" className="flex items-center text-amber-600 hover:text-amber-700 mr-4">
             <ArrowLeft className="w-5 h-5 mr-1" />
             Kembali
           </Link>
@@ -324,7 +324,7 @@ export default function PointsPage() {
                 type="tel"
                 required
                 placeholder="01XXXXXXXX"
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
@@ -334,7 +334,7 @@ export default function PointsPage() {
           <button
             type="submit"
             disabled={loading || !phone}
-            className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
+            className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
           >
             {loading ? (
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
@@ -348,7 +348,7 @@ export default function PointsPage() {
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-600">
             Belum ada akaun ahli?{' '}
-            <Link href="/membership" className="text-rose-600 hover:text-rose-700 font-medium">
+            <Link href="/membership" className="text-amber-600 hover:text-amber-700 font-medium">
               Daftar sekarang
             </Link>
           </p>
