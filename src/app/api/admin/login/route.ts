@@ -8,7 +8,7 @@ export async function POST(request: Request) {
       const body = await request.json()
       const { email, password } = body
 
-      console.log('Login attempt with:', email)
+      // Login attempt logging removed for production security
 
       if (!email || !password) {
         return NextResponse.json(
@@ -49,12 +49,15 @@ export async function POST(request: Request) {
 
       // Set session cookie
       const cookieStore = await cookies()
-      cookieStore.set('admin-session', JSON.stringify({
+      const sessionData = JSON.stringify({
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role
-      }), {
+        role: user.role,
+        timestamp: Date.now() // Add timestamp for session validation
+      })
+
+      cookieStore.set('admin-session', sessionData, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',

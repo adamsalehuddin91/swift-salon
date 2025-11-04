@@ -15,11 +15,10 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          console.log('❌ Missing credentials')
           return null
         }
 
-        console.log('🔍 Login attempt for:', credentials.email)
+        // Authentication attempt (logging removed for production security)
 
         // Try to find user in User table first (admins)
         let user = await prisma.user.findUnique({
@@ -30,7 +29,6 @@ export const authOptions: NextAuthOptions = {
 
         // If not found in User table, try Customer table
         if (!user) {
-          console.log('   Not found in User table, checking Customer table...')
           const customer = await prisma.customer.findFirst({
             where: {
               email: credentials.email
@@ -38,7 +36,6 @@ export const authOptions: NextAuthOptions = {
           })
 
           if (customer) {
-            console.log('   ✅ Found in Customer table')
             // Convert customer to user format for consistency
             user = {
               id: customer.id,
@@ -47,15 +44,10 @@ export const authOptions: NextAuthOptions = {
               password: customer.password || null,
               role: 'CUSTOMER'
             } as any
-          } else {
-            console.log('   ❌ Not found in Customer table either')
           }
-        } else {
-          console.log('   ✅ Found in User table, role:', user.role)
         }
 
         if (!user || !user.password) {
-          console.log('❌ No user found or no password set')
           return null
         }
 
@@ -64,13 +56,9 @@ export const authOptions: NextAuthOptions = {
           user.password
         )
 
-        console.log('🔐 Password valid:', isPasswordValid)
-
         if (!isPasswordValid) {
           return null
         }
-
-        console.log('✅ Login successful for:', user.email, 'Role:', user.role)
 
         return {
           id: user.id,

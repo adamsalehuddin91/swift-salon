@@ -13,9 +13,9 @@
     postgres:
       image: postgres:15-alpine
       environment:
-        POSTGRES_DB: swiftsalon_db
-        POSTGRES_USER: swiftsalon_user
-        POSTGRES_PASSWORD: SwiftSalon2024!
+        POSTGRES_DB: ${POSTGRES_DB:-swiftsalon_db}
+        POSTGRES_USER: ${POSTGRES_USER:-swiftsalon_user}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       ports:
         - "5432:5432"
       volumes:

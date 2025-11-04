@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { requireAdminAuth } from "@/lib/auth-middleware"
 
-export async function GET() {
+export const GET = requireAdminAuth(async (request: NextRequest) => {
   try {
     const today = new Date()
     const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate())
@@ -134,7 +135,7 @@ export async function GET() {
       service: serviceDetails.find(s => s.id === ps.serviceId)
     }))
 
-    return NextResponse.json({
+    return new Response(JSON.stringify({
       todayBookings,
       todayRevenue: todayRevenue._sum.amount || 0,
       weeklyBookings,
@@ -144,12 +145,16 @@ export async function GET() {
       pendingBookings,
       recentBookings,
       popularServices: popularServicesWithDetails
+    }), {
+      headers: { 'Content-Type': 'application/json' }
     })
   } catch (error) {
-    console.error('Error fetching dashboard data:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch dashboard data' },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: 'Failed to fetch dashboard data' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     )
   }
-}
+})
