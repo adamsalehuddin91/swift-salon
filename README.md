@@ -1,36 +1,164 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌟 SwiftSalon Muslimah - Professional Salon Management System
 
-## Getting Started
+A comprehensive Next.js-based salon management system designed for Muslim-friendly beauty salons, featuring booking management, customer loyalty programs, and business analytics.
 
-First, run the development server:
+## 🚀 Features
 
+- **👥 Customer Management** - Complete customer profiles with booking history
+- **📅 Booking System** - Advanced scheduling with staff assignment
+- **💰 Point-based Loyalty** - Reward system with redemption options
+- **👩‍💼 Staff Management** - Staff scheduling and performance tracking
+- **📊 Business Analytics** - Revenue tracking and service popularity insights
+- **🔐 Admin Dashboard** - Secure administrative interface
+- **📱 Mobile-Responsive** - Works seamlessly on all devices
+- **🔄 Real-time Updates** - Live booking and payment status updates
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15.5.3 with App Router
+- **Language**: TypeScript 5.9.3
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js with custom middleware
+- **Styling**: TailwindCSS with custom components
+- **State Management**: Zustand
+- **Deployment**: Docker containerized deployment
+
+## 🔧 Getting Started
+
+### Prerequisites
+
+- Node.js 18.0+
+- Docker & Docker Compose
+- PostgreSQL (or use Docker)
+
+### Environment Setup
+
+1. **Clone the repository:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/adamsalehuddin91/swift-salon.git
+cd swift-salon
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Create environment file:**
+```bash
+cp .env.example .env
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Update environment variables:**
+```env
+# Required: Set secure database password
+POSTGRES_PASSWORD=your_secure_database_password
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Required: Set admin credentials
+ADMIN_EMAIL=admin@yourcompany.com
+ADMIN_PASSWORD=your_secure_admin_password
 
-## Learn More
+# Required: Set NextAuth secret (32+ characters)
+NEXTAUTH_SECRET=your_32_character_secret_key_here
 
-To learn more about Next.js, take a look at the following resources:
+# Update URLs for production
+NEXT_PUBLIC_APP_URL=https://yourdomain.com
+NEXTAUTH_URL=https://yourdomain.com
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🐳 Docker Deployment (Recommended)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Start the application
+docker-compose up -d
 
-## Deploy on Vercel
+# Create admin user (first time only)
+docker exec -it swift-salon_app_1 npm run db:seed
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# View logs
+docker-compose logs -f app
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 💻 Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Setup database
+npm run db:generate
+npm run db:push
+npm run db:seed
+
+# Start development server
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to see the application.
+
+## 🔐 Security Features
+
+✅ **Environment-based Configuration** - No hardcoded credentials
+✅ **Secure Session Management** - Timestamped cookie validation
+✅ **API Authentication** - Protected endpoints with middleware
+✅ **Role-based Access Control** - Admin/staff/customer permissions
+✅ **Production-ready** - Security hardened for deployment
+
+## 📚 Documentation
+
+- [**Setup Guide**](./SETUP_GUIDE.md) - Detailed installation instructions
+- [**Production Deployment**](./PRODUCTION_DEPLOYMENT.md) - Server deployment guide
+- [**Feature Summary**](./FEATURES_SUMMARY.md) - Complete feature overview
+- [**System Access Guide**](./SYSTEM_ACCESS_GUIDE.md) - Admin access documentation
+
+## 🏗️ Project Structure
+
+```
+swift-salon/
+├── src/
+│   ├── app/                 # Next.js App Router pages
+│   │   ├── admin/          # Admin dashboard
+│   │   ├── api/            # API routes
+│   │   └── [pages]/        # Customer-facing pages
+│   ├── components/         # Reusable UI components
+│   ├── lib/               # Utilities and configurations
+│   └── types/             # TypeScript definitions
+├── prisma/                # Database schema and migrations
+├── public/                # Static assets
+└── [config files]
+```
+
+## 🚦 Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run db:generate  # Generate Prisma client
+npm run db:push      # Push schema to database
+npm run db:seed      # Seed initial data
+npm run lint         # Run ESLint
+npm run type-check   # TypeScript validation
+```
+
+## 🔑 Default Admin Access
+
+After running `npm run db:seed`:
+- **Email**: Set via `ADMIN_EMAIL` environment variable
+- **Password**: Set via `ADMIN_PASSWORD` environment variable
+- **Login URL**: `/admin/login`
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is part of the SwiftApps ecosystem - Professional business management solutions.
+
+## 🆘 Support
+
+For deployment and configuration support, refer to the documentation files or create an issue in the repository.
+
+---
+
+**🌟 SwiftSalon Muslimah** - Empowering Muslim-friendly beauty businesses with modern technology.
